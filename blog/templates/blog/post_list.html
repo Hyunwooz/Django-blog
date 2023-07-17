@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %} 
+
+{% block content %}
+    <h1>Blog</h1>
+    {% if posts %}
+    <section class="posts_section">
+        {% for post in posts %}
+            {% if post.status == 'active' %}
+            <a class="post_div" href="{% url 'blog:detail' pk=post.pk %}">
+                <div class='post_wrap'>
+                    <div class='post_info'>
+                        <p class='post_created'>{{ post.created_at }}</p>
+                        {% comment %} <p class='post_writer'>{{ post.writer.username }}</p> {% endcomment %}
+                    </div>
+                    <p class='post_title'>{{ post.title }}</p>
+                    <p class='post_content'>{{ post.content }}</p>
+                </div>
+                <p class='post_category'>{{ post.category }}</p>
+            </a>
+            {% endif %}
+        {% endfor %}
+    </section>
+    {% else %}
+        <p>작성된 게시물이 없습니다.</p>
+    {% endif %}
+{% endblock %}
