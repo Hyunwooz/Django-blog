@@ -1,0 +1,11 @@
+{% extends 'user/base.html' %} 
+{% load static %}
+
+{% block content %}
+    <h2>프로필</h2>
+    <form action="{% url 'user:profile' %}" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-outline-success" type="submit" value="저장">
+    </form>
+{% endblock %}

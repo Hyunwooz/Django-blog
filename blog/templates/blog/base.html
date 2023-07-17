@@ -43,7 +43,7 @@
                     {% if request.user.is_authenticated %}
 					<!-- 로그인 -->
 					<li class="profile-img">
-						<a href="#">
+						<a href="{%url 'user:profile' %}">
 							<img src="{% static 'blog/assets/profile.jpg' %}" alt="My Page" />
 						</a>
 					</li>

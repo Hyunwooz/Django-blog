@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-from .forms import JoinForm, LoginForm
+from .forms import JoinForm, LoginForm, ProfileForm
+from django.contrib.auth import get_user_model
+from .models import Profile as Profiles
 
+User = get_user_model()
 
 class Join(View):
     def get(self, request):
@@ -66,3 +69,51 @@ class Logout(View):
     def get(self, request):
             logout(request)
             return redirect('blog:list')
+        
+### Profile
+class Profile(View):
+    def get(self, request):
+
+        if request.user.is_profile:
+            return redirect('user:pf-edit')
+        
+        form = ProfileForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'user/user_profile.html', context)
+        
+    def post(self, request):
+        
+        user = User.objects.get(pk=request.user)
+        avatarUrl = request.FILES['avatarUrl']
+        name = request.POST['name']
+        
+        profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name)
+        user.is_profile = True
+        user.save()
+        
+        return redirect('blog:list')
+    
+
+class ProfileUpdate(View):
+    def get(self, request):
+        profile = Profiles.objects.get(user=request.user)
+        form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name})
+        context = {
+            'form': form,
+        }
+        return render(request, 'user/user_pf_edit.html', context)
+        
+    def post(self, request):
+        
+        user = User.objects.get(pk=request.user)
+        avatarUrl = request.FILES['avatarUrl']
+        name = request.POST['name']
+        
+        profile = Profiles.objects.get(user=user)
+        profile.avatarUrl = avatarUrl
+        profile.name = name
+        profile.save()
+        
+        return redirect('blog:list')
