@@ -85,7 +85,7 @@ class Profile(View):
         
     def post(self, request):
         
-        user = User.objects.get(pk=request.user)
+        user = User.objects.get(pk=request.user.pk)
         avatarUrl = request.FILES['avatarUrl']
         name = request.POST['name']
         
@@ -98,7 +98,7 @@ class Profile(View):
 
 class ProfileUpdate(View):
     def get(self, request):
-        profile = Profiles.objects.get(user=request.user)
+        profile = Profiles.objects.get(user=request.user.pk)
         form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name})
         context = {
             'form': form,
@@ -107,13 +107,18 @@ class ProfileUpdate(View):
         
     def post(self, request):
         
-        user = User.objects.get(pk=request.user)
-        avatarUrl = request.FILES['avatarUrl']
+        user = User.objects.get(pk=request.user.pk)
+        profile = Profiles.objects.get(user=user)
         name = request.POST['name']
         
-        profile = Profiles.objects.get(user=user)
-        profile.avatarUrl = avatarUrl
-        profile.name = name
+        try:
+            avatarUrl = request.FILES['avatarUrl']
+        except:
+            profile.name = name
+        else:
+            profile.name = name
+            profile.avatarUrl = avatarUrl
+        
         profile.save()
         
         return redirect('blog:list')

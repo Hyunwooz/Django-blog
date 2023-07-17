@@ -10,7 +10,7 @@
         <h1>Index page</h1>
         
         {% if request.user.is_authenticated %}
-            <h2>환영합니다. {{ request.user.name }}님</h2>
+            <h2>환영합니다. {{ request.user.profile.name }}님</h2>
             <a href="{% url 'user:logout' %}">로그아웃</a>
             <a href="{% url 'blog:list' %}">블로그</a>
         {% else %}

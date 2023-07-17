@@ -44,7 +44,7 @@
 					<!-- 로그인 -->
 					<li class="profile-img">
 						<a href="{%url 'user:profile' %}">
-							<img src="{% static 'blog/assets/profile.jpg' %}" alt="My Page" />
+							<img src="{{ request.user.profile.avatarUrl.url }}" alt="My Profile" />
 						</a>
 					</li>
 					<li>
