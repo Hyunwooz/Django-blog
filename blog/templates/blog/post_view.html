@@ -1,0 +1,64 @@
+{% extends 'blog/base.html' %} 
+{% load static %}
+
+{% block content %}
+	<div class="banner" style="background-image: url({% static 'blog/images/post-background6.jpg'%})">
+		<div class="max-width">
+			<div class="banner-contents">
+				<p class="today">May <em>25</em> Wednesday</p>
+			</div>
+		</div>
+	</div>
+	<div class="view">
+		<div class="max-width">
+			<section class="wrap-box">
+				<div class="inner">
+					<!-- author -->
+					<dl class="author-wrap">
+						<dt class="a11y-hidden">Author</dt>
+						<dd class="author"><img src="{% static 'blog/images/profile.jpg' %}" alt="" /> {{ post.writer.name }}</dd>
+						<dt class="a11y-hidden">Created</dt>
+						<dd class="created">{{ post.created_at }}</dd>
+						<dt class="a11y-hidden">Views</dt>
+						<dd class="views">조회수 : {{ post.views }}</dd>
+					</dl>
+					<!-- //author -->
+					<!-- category -->
+					<dl class="category">
+						<dt class="a11y-hidden">Category</dt>
+						<dd>{{ post.category }}</dd>
+					</dl>
+					<!-- //category -->
+					<div class="title-wrap">
+						<h2>{{ post.title }}</h2>
+					</div>
+					<hr />
+					<div class="view-contents">
+						<p>
+							{{ post.content }}
+						</p>
+					</div>
+					{% if request.user == post.writer %}
+						<div class="btn-group">
+							<a href="{% url 'blog:edit' pk=post.pk %}" class="btn-modify">
+								<span class="a11y-hidden">modify</span>
+							</a>
+							<form action="{% url 'blog:delete' pk=post.pk %}" method="post">
+								{% csrf_token %}
+								<button type="submit" class="btn-delete">
+									<span class="a11y-hidden">delete</span>
+								</button>
+							</form>
+							
+						</div>
+						
+					{% endif %}
+					
+					<a href="{% url 'blog:list' %}" class="btn-back">
+						<span class="a11y-hidden">Back</span>
+					</a>
+				</div>
+			</section>
+		</div>
+	</div>
+{% endblock %}

@@ -1,24 +1,109 @@
 {% extends 'blog/base.html' %} 
+{% load static %}
 
 {% block content %}
-    <h1>Blog</h1>
-    {% if posts %}
-    <section class="posts_section">
-        {% for post in posts %}
-            <a class="post_div" href="{% url 'blog:detail' pk=post.pk %}">
-                <div class='post_wrap'>
-                    <div class='post_info'>
-                        <p class='post_created'>{{ post.created_at }}</p>
-                        {% comment %} <p class='post_writer'>{{ post.writer.username }}</p> {% endcomment %}
-                    </div>
-                    <p class='post_title'>{{ post.title }}</p>
-                    <p class='post_views'>조회수 : {{ post.views }}</p>
+    <!-- main -->
+    <main>
+        <!-- banner -->
+        <div class="banner">
+            <div class="max-width">
+                <div class="banner-contents">
+                    <p class="sub-text">Welcome!</p>
+                    <p class="main-text">BLOG</p>
+                    <p class="description">
+                        안녕하세요. 저의 블로그에 오신걸 환영합니다 :) 재밌게 즐기다 가시길 바랍니다.
+                    </p>
                 </div>
-                <p class='post_category'>{{ post.category }}</p>
-            </a>
-        {% endfor %}
-    </section>
-    {% else %}
-        <p>작성된 게시물이 없습니다.</p>
-    {% endif %}
+            </div>
+        </div>
+        <!-- //banner -->
+        <!-- posts -->
+        <div class="max-width">
+            <h2 class="a11y-hidden">Post</h2>
+            {% if posts %}
+            <ul class="posts">
+                {% for post in posts %}
+                <li>
+                    <a href="{% url 'blog:detail' pk=post.pk %}" class="post">
+                        <article>
+                            <img src="{% static 'blog/images/post-img6.jpg' %}" alt="" />
+                            <div class="contents-wrap">
+                                <!-- category -->
+                                <dl class="category">
+                                    <dt class="a11y-hidden">Category</dt>
+                                    <dd>{{ post.category }}</dd>
+                                </dl>
+                                <!-- //category -->
+
+                                <h3>{{post.title}}</h3>
+
+                                <!-- author -->
+
+                                <dl class="author-wrap">
+                                    <dt class="a11y-hidden">Author</dt>
+                                    <dd class="author"><img src="{% static 'blog/images/profile.jpg' %}" alt="" /> {{post.writer.name}}</dd>
+                                    <dt class="a11y-hidden">Created</dt>
+                                    <dd class="created">{{post.created_at}}</dd>
+                                </dl>
+                                
+                                <!-- //author -->
+
+                                <p class="post-description">
+                                    {{post.content}}
+                                </p>
+                                <dl class="author-wrap">
+                                    <dt class="a11y-hidden">views</dt>
+                                    <dd class="views">Views : {{post.views}}</dd>
+                                </dl>
+                            </div>
+                        </article>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>작성된 게시물이 없습니다.</p>
+            {% endif %}
+            <!-- //posts -->
+
+            <!-- about
+            <aside class="about">
+                <h2>About Me</h2>
+                <img src="{% static 'blog/images/profile.jpg' %}" alt="" class="user-profile" />
+                <p class="user-name">Chilli</p>
+                <p class="user-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <h3>Categories</h3>
+                <ul class="categories">
+                    {% for category in categories %}
+                        <li><a href="#">{{category}}</a></li>
+                    {% endfor %}
+                </ul>
+                <h3>Follow</h3>
+                <ul class="sns">
+                    <li>
+                        <a href="#">
+                            <img src="{% static 'blog/assets/Facebook.svg' %}" alt="Facebook" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{% static 'blog/assets/Twitter.svg' %}" alt="Twitter" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{% static 'blog/assets/Instagram.svg' %}" alt="Instagram" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{% static 'blog//assets/Github.svg' %}" alt="GitHub" />
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            //about -->
+        </div>
+    </main>
+    
 {% endblock %}

@@ -8,8 +8,10 @@ from .forms import PostForm, CommentForm
 class Index(View):
     def get(self, request):
         post_objs = Post.objects.all().filter(status='active')
+        categories = ['T1','T2']
         context = {
-            "posts": post_objs
+            "posts": post_objs,
+            "categories": categories
         }
         return render(request, 'blog/post_list.html', context)
 
@@ -61,7 +63,7 @@ class Detail(View):
                     'comment_form': comment_form,
                 }
             
-                return render(request,'blog/post_detail.html', context)
+                return render(request,'blog/post_view.html', context)
         
             return render(request,'blog/error.html')
     
