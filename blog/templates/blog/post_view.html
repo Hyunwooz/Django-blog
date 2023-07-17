@@ -38,6 +38,31 @@
 							{{ post.content }}
 						</p>
 					</div>
+					<hr />
+					<!-- 댓글 작성 화면 -->
+					<h3 class='comment_title'>Comments</h3>
+					<!-- 댓글 출력 화면 -->
+					<ul class='post_comments'>
+						{% if comments %}
+						{% for comment in comments %}
+							<li>
+								<p>{{ comment.writer }}</p>
+								<p>{{ comment.content }}</p>
+								<form action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
+									{% csrf_token %}
+									<input type="submit" class="btn btn-outline-success" value="X"></input>
+								</form>
+							</li>
+						{% endfor %}
+						{% else %}
+							<li>댓글이 없습니다.</li>
+						{% endif %}
+						</ul>
+					<form class='comment_input' style="display: flex; align-items: center;" action="{% url 'blog:cm-write' pk=post.pk %}" method="post">
+						{% csrf_token %}
+						{{ comment_form.content }}
+						<input style="margin-left: 5px;" type="submit" class="btn btn-outline-success" value="댓글 작성"></input>
+					</form>
 					{% if request.user == post.writer %}
 						<div class="btn-group">
 							<a href="{% url 'blog:edit' pk=post.pk %}" class="btn-modify">
