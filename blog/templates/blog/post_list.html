@@ -41,7 +41,7 @@
 
                                 <dl class="author-wrap">
                                     <dt class="a11y-hidden">Author</dt>
-                                    <dd class="author"><img src="{% static 'blog/images/profile.jpg' %}" alt="" /> {{post.writer.name}}</dd>
+                                    <dd class="author"><img src="{{ post.writer.profile.avatarUrl.url }}" alt="" /> {{ post.writer.profile.name }}</dd>
                                     <dt class="a11y-hidden">Created</dt>
                                     <dd class="created">{{post.created_at}}</dd>
                                 </dl>
@@ -66,13 +66,13 @@
             {% endif %}
             <!-- //posts -->
 
-            <!-- about
+            <!-- about -->
+            {% if request.user.is_authenticated %}
             <aside class="about">
                 <h2>About Me</h2>
-                <img src="{% static 'blog/images/profile.jpg' %}" alt="" class="user-profile" />
-                <p class="user-name">Chilli</p>
-                <p class="user-description">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <h3>Categories</h3>
+                <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
+                <p class="user-name">{{request.user.profile.name}}</p>
+                <p class="user-description">{{request.user.profile.aboutMe}}</h3>
                 <ul class="categories">
                     {% for category in categories %}
                         <li><a href="#">{{category}}</a></li>
@@ -102,7 +102,8 @@
                     </li>
                 </ul>
             </aside>
-            //about -->
+            {% endif %}
+            <!--//about -->
         </div>
     </main>
     
