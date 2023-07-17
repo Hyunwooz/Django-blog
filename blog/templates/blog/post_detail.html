@@ -5,13 +5,18 @@
         <div class='post_wrap'>
             <div class='post_info'>
                 <p class='post_created'>{{ post.created_at }}</p>
-                <p class='post_writer'>{{ post.writer.username }}</p>
+                <p class='post_writer'>{{ post.writer.name }}</p>
             </div>
             <p class='post_title'>{{ post.title }}</p>
             <p class='post_content'>{{ post.content }}</p>
         </div>
         <!-- 댓글 작성 화면 -->
         <p class='comment_title'>Comments</p>
+        <form class='comment_input' action="{% url 'blog:cm-write' pk=post.pk %}" method="post">
+            {% csrf_token %}
+            {{ comment_form.content }}
+            <input style="margin-left: 5px;" type="submit" class="btn btn-outline-success" value="댓글 작성"></input>
+        </form>
         <!-- 댓글 출력 화면 -->
         <ul class='post_comments'>
             {% if comments %}
@@ -21,7 +26,9 @@
                     <p>{{ comment.content }}</p>
                     <form action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
                         {% csrf_token %}
-                        <input type="submit" class="btn btn-outline-success" value="X"></input>
+                        {% if request.user == comment.writer %}
+                            <input type="submit" class="btn btn-outline-success" value="X"></input>
+                        {% endif %}
                     </form>
                 </li>
             {% endfor %}
@@ -30,10 +37,13 @@
             {% endif %}
         </ul>
         <a href="{% url 'blog:list' %}">목록</a>
-        <form action="{% url 'blog:delete' pk=post.pk %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="삭제" class="btn">
-        </form>
+        {% if request.user == post.writer %}
+            <a href="{% url 'blog:edit' pk=post.pk %}">수정</a>
+            <form action="{% url 'blog:delete' pk=post.pk %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="삭제" class="btn">
+            </form>
+        {% endif %}
     </section>
 
 {% endblock %}

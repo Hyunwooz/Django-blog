@@ -5,7 +5,6 @@
     {% if posts %}
     <section class="posts_section">
         {% for post in posts %}
-            {% if post.status == 'active' %}
             <a class="post_div" href="{% url 'blog:detail' pk=post.pk %}">
                 <div class='post_wrap'>
                     <div class='post_info'>
@@ -13,11 +12,10 @@
                         {% comment %} <p class='post_writer'>{{ post.writer.username }}</p> {% endcomment %}
                     </div>
                     <p class='post_title'>{{ post.title }}</p>
-                    <p class='post_content'>{{ post.content }}</p>
+                    <p class='post_views'>조회수 : {{ post.views }}</p>
                 </div>
                 <p class='post_category'>{{ post.category }}</p>
             </a>
-            {% endif %}
         {% endfor %}
     </section>
     {% else %}

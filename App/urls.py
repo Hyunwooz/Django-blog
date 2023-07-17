@@ -20,6 +20,7 @@ from .views import IndexMain
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
+    path('user/', include('user.urls')),
     path('',IndexMain.as_view(), name='home'),
 
 ]
