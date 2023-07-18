@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block content %}
-	<div class="banner" style="background-image: url({% static 'blog/images/post-background6.jpg'%})">
+	{% if post.thumbnail %}
+	<div class="banner" style="background-image: url({{ post.thumbnail }})">
+	{% else %}
+	<div class="banner" style="{%static 'blog/images/post-img6.jpg'%}">
+	{% endif %}
 		<div class="max-width">
 			<div class="banner-contents">
 				<p class="today">May <em>25</em> Wednesday</p>

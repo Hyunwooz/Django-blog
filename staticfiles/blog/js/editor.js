@@ -1,6 +1,6 @@
 const Editor = toastui.Editor;
-const $save_btn = document.querySelector('.post_save')
-const $thumbnail_btn = document.querySelector('.post_thumbnail')
+const $save_btn = document.querySelector('.post_save');
+const $thumbnail_btn = document.querySelector('.post_thumbnail');
 
 const getCookie = function(name){
     const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
@@ -14,6 +14,7 @@ const editor = new Editor({
     initialEditType: 'markdown',
     previewStyle: 'vertical',
     hooks: {
+        // editor에서 이미지 업로드 기능
         addImageBlobHook: (blob, callback) => {
 
             const formData = new FormData();
@@ -46,13 +47,12 @@ const editor = new Editor({
     }
 });
 
-let thumbnail ;
-
-const thumbnaulFunc = () =>{
-
+let thumbnail = null;
+// 썸네일 이미지 저장
+const thumbnailFunc = () =>{
     const formData = new FormData();
-    formData.append('image', $thumbnail_btn.current.files[0]);
-
+    formData.append('image', $thumbnail_btn.files[0]);
+    
     $.ajax({
         type: 'POST',
         enctype: 'multipart/form-data',
@@ -68,7 +68,7 @@ const thumbnaulFunc = () =>{
         },
         success: function(data) {
             thumbnail = data.url
-            console.log(thumbnail)
+            console.log('Result: 성공')
         },
         error: function(e) {
             console.log(e)
@@ -80,11 +80,16 @@ const postSave = (event) => {
     event.preventDefault()
     const title = document.querySelector('.post_title').value
     const category = document.querySelector('.post_category').value
-    
-    const post = {
+    let post = {
         "title": title,
         "content": editor.getHTML(),
         "category": category,
+    }
+
+    if (thumbnail != null) {
+        post["thumbnail"] = '/media/'+ thumbnail
+    } else {
+        post["thumbnail"] = "blank"
     }
 
     $.ajax({
@@ -107,4 +112,4 @@ const postSave = (event) => {
 }
 
 $save_btn.addEventListener('click',postSave)
-$thumbnail_btn.addEventListener('change',thumbnaulFunc)
+$thumbnail_btn.addEventListener('change',thumbnailFunc)

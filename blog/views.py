@@ -87,59 +87,44 @@ class Update(LoginRequiredMixin, View):
     
     def post(self, request, pk):
         post = Post.objects.get(pk=pk)
-        return JsonResponse(post)
+        data = {
+            'title': post.title,
+            'content': post.content,
+            'category': post.category,
+            'thumbnail': str(post.thumbnail)
+        }
+        return JsonResponse(data)
 
-    def put(self, request):
-        user = request.user
-        title = request.POST['title']
-        content = request.POST['content']
-        category = request.POST['category']
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        # title = request.POST['title']
+        post.title = request.POST['title']
+        post.content = request.POST['content']
+        post.category = request.POST['category']
+        
         thumbnail = request.POST['thumbnail']
         
         if thumbnail != "blank":
-            post = Post.objects.create(title=title, content=content, category=category, writer=user,thumbnail=thumbnail)
-        else:
-            post = Post.objects.create(title=title, content=content, category=category, writer=user)
-
+            post.thumbnail = thumbnail
+        
+        post.save()
         # serializer = PostSerializer(post)
         data = {
-            'message': '저장이 완료되었습니다.'
+            'message': '수정이 완료되었습니다.'
         }
         return JsonResponse(data)
 
 
-# class Update(LoginRequiredMixin, View):
-#     Mixin : LoginRequiredMixin
-#     login_url = '/user/login'
-#     redirect_field_name = 'next'
-    
-#     def get(self, request, pk):
-#         post = Post.objects.get(pk=pk)
-#         if post.writer == request.user:
-#             # form = PostForm(initial={'title': post.title, 'content': post.content, 'category': post.category, 'thumbnail': post.thumbnail})
-#             # context = {
-#             #     'form': form,
-#             #     'post': post,
-#             # }
-#             # return render(request, 'blog/post_edit.html', context)
-#             return render(request, 'blog/post_edit.html')
-#         return redirect('blog:list', pk=pk)
-    
-#     def post(self, request, pk):
-#         post = Post.objects.get(pk=pk)
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             post.title = form.cleaned_data['title']
-#             post.content = form.cleaned_data['content']
-#             post.category = form.cleaned_data['category']
-#             post.save()
-#             return redirect('blog:detail', pk=pk)
-        
-#         form.add_error(None, '폼이 유효하지 않습니다.')
-#         context = {
-#             'form': form
-#         }
-#         return render(request, 'blog/post_edit.html', context)
+class LoadPost(View):
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        data = {
+            'title': post.title,
+            'content': post.content,
+            'category': post.category,
+            'thumbnail': str(post.thumbnail)
+        }
+        return JsonResponse(data)
 
 
 class Delete(View):
