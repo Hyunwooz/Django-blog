@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse 
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Comment
+from .models import Post, Comment, ImageUpload
 from .forms import PostForm, CommentForm
 
 ### Post
@@ -110,9 +111,26 @@ class Delete(View):
         return redirect('blog:list')
 
 
+class ImgUpload(View):
+    def post(self, request):
+        image = request.FILES['image']
+        imageUpload = ImageUpload.objects.create(image=image)
+        url = imageUpload.image
+        data = {
+            'url': str(url)
+        }
+        return JsonResponse(data)
+
+
 class Search(View):
     def get(self, request):
-        pass
+        post_objs = Post.objects.all().filter(status='active',title__contains=request.GET['keyword'])
+        categories = ['T1','T2']
+        context = {
+            "posts": post_objs,
+            "categories": categories
+        }
+        return render(request, 'blog/post_search.html', context)
     
     
 ### Comment

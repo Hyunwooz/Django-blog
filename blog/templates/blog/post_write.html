@@ -6,7 +6,7 @@
     <!-- 내용 -->
     <form action="{% url 'blog:write' %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div id="editor"></div>
         <input type="submit" class="btn btn-outline-success">
     </form>
 {% endblock %}

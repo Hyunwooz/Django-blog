@@ -29,6 +29,12 @@
 
         <link rel="stylesheet" href="{% static 'blog/css/wrapbox.css' %}" />
 		<link rel="stylesheet" href="{% static 'blog/css/view.css' %}" />
+
+		<!-- Toast UI Editor -->
+		<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+		<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	
     </head>
     <body>
         <!-- header -->
@@ -39,6 +45,12 @@
 						<img src="{% static 'blog/assets/Logo.svg' %}" alt="My Blog" />
 					</a>
 				</h1>
+				<div>
+					<form action="{% url 'blog:search' %}" method="get">
+						<input placeholder="Search by title" ,type="text" , name="keyword" , required>
+						<input type='submit' value="찾기">
+					</form>
+				</div>
 				<ul>
                     {% if request.user.is_authenticated %}
 					<!-- 로그인 -->
@@ -87,11 +99,12 @@
         <!-- footer -->
 		<footer>
 			<div class="max-width">
-				<h2>©Weniv Corp.</h2>
+				<h2>Copyright 2023. Chilli All rights reserved.</h2>
 				<button class="top-button">TOP</button>
 			</div>
 		</footer>
 		<!-- //footer -->
+		<script src="{% static 'blog/js/editor.js' %}"></script>
     </body>
 </html>
    

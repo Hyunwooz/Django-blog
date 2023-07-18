@@ -1,0 +1,68 @@
+{% extends 'blog/base.html' %} 
+{% load static %}
+
+{% block content %}
+    <!-- main -->
+    <main>
+        <!-- banner -->
+        <div class="banner">
+            <div class="max-width">
+                <div class="banner-contents">
+                    <p class="sub-text">SEARCH!</p>
+                    <p class="main-text">RESULT</p>
+                </div>
+            </div>
+        </div>
+        <!-- //banner -->
+        <!-- posts -->
+        <div class="max-width">
+            <h2 class="a11y-hidden">Post</h2>
+            {% if posts %}
+            <ul class="posts">
+                {% for post in posts %}
+                <li>
+                    <a href="{% url 'blog:detail' pk=post.pk %}" class="post">
+                        <article>
+                            <img src="{% static 'blog/images/post-img6.jpg' %}" alt="" />
+                            <div class="contents-wrap">
+                                <!-- category -->
+                                <dl class="category">
+                                    <dt class="a11y-hidden">Category</dt>
+                                    <dd>{{ post.category }}</dd>
+                                </dl>
+                                <!-- //category -->
+
+                                <h3>{{post.title}}</h3>
+
+                                <!-- author -->
+
+                                <dl class="author-wrap">
+                                    <dt class="a11y-hidden">Author</dt>
+                                    <dd class="author"><img src="{{ post.writer.profile.avatarUrl.url }}" alt="" /> {{ post.writer.profile.name }}</dd>
+                                    <dt class="a11y-hidden">Created</dt>
+                                    <dd class="created">{{post.created_at}}</dd>
+                                </dl>
+                                
+                                <!-- //author -->
+
+                                <p class="post-description">
+                                    {{post.content}}
+                                </p>
+                                <dl class="author-wrap">
+                                    <dt class="a11y-hidden">views</dt>
+                                    <dd class="views">Views : {{post.views}}</dd>
+                                </dl>
+                            </div>
+                        </article>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>작성된 게시물이 없습니다.</p>
+            {% endif %}
+            <!-- //posts -->
+        </div>
+    </main>
+    
+{% endblock %}
