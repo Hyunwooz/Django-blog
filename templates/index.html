@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Index</title>
-    </head>
-    <body>
-        <h1>Index page</h1>
-        
-        {% if request.user.is_authenticated %}
-            <h2>환영합니다. {{ request.user.profile.name }}님</h2>
-            <a href="{% url 'user:logout' %}">로그아웃</a>
-            <a href="{% url 'blog:list' %}">블로그</a>
-        {% else %}
-            {% comment %} <a href="{% url 'user:login' %}">로그인</a>
-            <a href="{% url 'user:register' %}">회원가입</a> {% endcomment %}
-			<a href="{% url 'user:login' %}">로그인</a>
-            <a href="{% url 'user:join' %}">회원가입</a>
-            <a href="{% url 'blog:list' %}">블로그</a>
-        {% endif %}
-        
-        <!-- <a href=""></a> -->
-    </body>
-</html>
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h2>환영합니다. {{ request.user.profile.name }}님</h2>
+    {% endif %}
+    <a href="{% url 'blog:list' %}">블로그 바로가기</a>
+{% endblock %}
