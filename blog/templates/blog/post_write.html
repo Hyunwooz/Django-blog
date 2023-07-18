@@ -1,12 +1,24 @@
 {% extends 'blog/base.html' %} 
-
+{% load static %}
 {% block content %}
-    <h2>글쓰기</h2>
+    <!-- Toast UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <!-- 제목 -->
     <!-- 내용 -->
-    <form action="{% url 'blog:write' %}" method="post">
-        {% csrf_token %}
+    <form class="post_write">
+        <p>제목<p>
+        <input class="post_title" type="text" name="title" placeholder="제목을 입력하세요!"></input>
+        <p>카테고리<p>
+        <select class="post_category" name="category" id="category">
+            <option value="T1">T1</option>
+            <option value="T2">T2</option>
+        </select>
         <div id="editor"></div>
-        <input type="submit" class="btn btn-outline-success">
+        <input class="post_save" type="submit" value="저장"></input>
     </form>
+    <script src="{% static 'blog/js/editor.js' %}"></script>
 {% endblock %}
+
+

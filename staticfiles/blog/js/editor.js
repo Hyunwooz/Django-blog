@@ -15,6 +15,7 @@ const editor = new Editor({
     previewStyle: 'vertical',
     hooks: {
         addImageBlobHook: (blob, callback) => {
+            // 쿠키로드
 
             const formData = new FormData();
             formData.append('image', blob);
@@ -55,6 +56,7 @@ const postSave = (event) => {
         "title": title,
         "content": editor.getHTML(),
         "category": category,
+        "writer": Request.user
     }
 
     $.ajax({
@@ -67,11 +69,10 @@ const postSave = (event) => {
             xhr.setRequestHeader("X-CSRFToken",csrf_token);
         },
         success: function(data) {
-            alert('글이 저장되었습니다.')
-            location.href = '/blog/'
+            console.log(data)
         },
         error: function(e) {
-            alert(e)
+            console.log(e)
         }
     });
 }

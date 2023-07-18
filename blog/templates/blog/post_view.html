@@ -34,9 +34,7 @@
 					</div>
 					<hr />
 					<div class="view-contents">
-						<p>
-							{{ post.content }}
-						</p>
+						{{ post.content | safe }}
 					</div>
 					<hr />
 					<!-- 댓글 작성 화면 -->

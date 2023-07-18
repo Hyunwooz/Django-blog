@@ -1,12 +1,4 @@
 const Editor = toastui.Editor;
-const $save_btn = document.querySelector('.post_save')
-
-const getCookie = function(name){
-    const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return value? value[2] : null;
-}
-
-const csrf_token = getCookie('csrftoken');
 
 const editor = new Editor({
     el: document.querySelector('#editor'),
@@ -15,6 +7,16 @@ const editor = new Editor({
     previewStyle: 'vertical',
     hooks: {
         addImageBlobHook: (blob, callback) => {
+            // blob : Java Script 파일 객체
+            //console.log(blob);
+
+            // 쿠키로드
+            const getCookie = function(name){
+                const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+                return value? value[2] : null;
+            }
+
+            const csrf_token = getCookie('csrftoken');
 
             const formData = new FormData();
             formData.append('image', blob);
@@ -45,35 +47,3 @@ const editor = new Editor({
         }
     }
 });
-
-const postSave = (event) => {
-    event.preventDefault()
-    const title = document.querySelector('.post_title').value
-    const category = document.querySelector('.post_category').value
-    
-    const post = {
-        "title": title,
-        "content": editor.getHTML(),
-        "category": category,
-    }
-
-    $.ajax({
-        type: 'POST',
-        url: '/blog/write/',
-        data: post,
-        dataType: 'json',
-        timeout: 600000,
-        beforeSend : function(xhr){
-            xhr.setRequestHeader("X-CSRFToken",csrf_token);
-        },
-        success: function(data) {
-            alert('글이 저장되었습니다.')
-            location.href = '/blog/'
-        },
-        error: function(e) {
-            alert(e)
-        }
-    });
-}
-
-$save_btn.addEventListener('click',postSave)

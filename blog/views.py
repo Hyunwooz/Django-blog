@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, ImageUpload
 from .forms import PostForm, CommentForm
+from .serializers import PostSerializer
 
 ### Post
 class Index(View):
@@ -31,18 +32,18 @@ class Write(LoginRequiredMixin, View):
         return render(request,'blog/post_write.html',context)
     
     def post(self, request):
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.writer = request.user
-            post.save()
-            return redirect('blog:list')
-        form.add_error(None, '폼이 유효하지 않습니다.')
-        context = {
-            'form': form
+
+        user = request.user
+        title = request.POST['title']
+        content = request.POST['content']
+        category = request.POST['category']
+
+        post = Post.objects.create(title=title, content=content, category=category, writer=user)
+        serializer = PostSerializer(post)
+        data = {
+            'message': '저장이 완료되었습니다.'
         }
-        return render(request, 'blog/post_write.html',context)
-    
+        return JsonResponse(data)    
 
 class Detail(View):
     def get(self, request, pk):

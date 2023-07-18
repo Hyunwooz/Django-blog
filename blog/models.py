@@ -30,6 +30,6 @@ class Comment(models.Model):
     def __str__(self):
         return f'Comment on {self.post.title}'
     
-
+### 이미지 업로드 모델
 class ImageUpload(models.Model):
     image = models.ImageField(upload_to='blog/media',null=True)

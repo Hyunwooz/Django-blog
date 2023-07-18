@@ -19,8 +19,7 @@ header h1 a {
 }
 header h1 a img {
 	display: block;
-	width: 4.4rem;
-	height: 4.4rem;
+	width: 30%;
 }
 header ul {
 	display: flex;
