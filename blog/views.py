@@ -4,7 +4,6 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, ImageUpload
 from .forms import PostForm, CommentForm
-from .serializers import PostSerializer
 
 ### Post
 class Index(View):
@@ -38,8 +37,12 @@ class Write(LoginRequiredMixin, View):
         content = request.POST['content']
         category = request.POST['category']
         thumbnail = request.POST['thumbnail']
+        
+        if thumbnail != "blank":
+            post = Post.objects.create(title=title, content=content, category=category, writer=user,thumbnail=thumbnail)
+        else:
+            post = Post.objects.create(title=title, content=content, category=category, writer=user)
 
-        post = Post.objects.create(title=title, content=content, category=category, writer=user,thumbnail=thumbnail)
         # serializer = PostSerializer(post)
         data = {
             'message': '저장이 완료되었습니다.'

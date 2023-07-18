@@ -14,6 +14,7 @@ const editor = new Editor({
     initialEditType: 'markdown',
     previewStyle: 'vertical',
     hooks: {
+        // editor에서 이미지 업로드 기능
         addImageBlobHook: (blob, callback) => {
 
             const formData = new FormData();
@@ -46,8 +47,8 @@ const editor = new Editor({
     }
 });
 
-let thumbnail ;
-
+let thumbnail = null;
+// 썸네일 이미지 저장
 const thumbnailFunc = () =>{
     const formData = new FormData();
     formData.append('image', $thumbnail_btn.files[0]);
@@ -79,12 +80,16 @@ const postSave = (event) => {
     event.preventDefault()
     const title = document.querySelector('.post_title').value
     const category = document.querySelector('.post_category').value
-
-    const post = {
+    let post = {
         "title": title,
         "content": editor.getHTML(),
         "category": category,
-        "thumbnail": '/media/'+ thumbnail
+    }
+
+    if (thumbnail != null) {
+        post["thumbnail"] = '/media/'+ thumbnail
+    } else {
+        post["thumbnail"] = "blank"
     }
 
     $.ajax({
