@@ -1,14 +1,29 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-
-{% if form.errors %}
-    {% include 'blog/form_error.html' %}
 {% else %}
-    <form action="{% url 'blog:edit' pk=post.pk%}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value = "수정">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- 제목 -->
+    <!-- 내용 -->
+    <form class="post_write">
+        <p>제목<p>
+        <input class="post_title" type="text" name="title" placeholder="제목을 입력하세요!"></input>
+        <p>카테고리<p>
+        <select class="post_category" name="category" id="category">
+            <option value="Life">Life</option>
+            <option value="Style">Style</option>
+            <option value="Tech">Tech</option>
+            <option value="Sport">Sport</option>
+            <option value="Photo">Photo</option>
+            <option value="Develop">Develop</option>
+            <option value="Music">Music</option>
+        </select>
+        <p>썸네일 이미지<p>
+        <input class="post_thumbnail" type="file" name="thumbnail" accept="image/*"></input>
+        <div id="editor"></div>
+        <input class="post_save" type="submit" value="저장"></input>
     </form>
-{% endif %}
+    <script src="{% static 'blog/js/editor.js' %}"></script>
 {% endblock %}

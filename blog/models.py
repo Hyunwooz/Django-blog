@@ -11,6 +11,7 @@ class Post(models.Model):
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(default='active', max_length=20)
     category = models.CharField(max_length=30)
+    thumbnail = models.ImageField(upload_to='blog/media',null=True,blank=True)
     views = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -29,3 +30,4 @@ class Comment(models.Model):
 ### 이미지 업로드 모델
 class ImageUpload(models.Model):
     image = models.ImageField(upload_to='blog/media',null=True)
+    created_at = models.DateTimeField(auto_now_add=True)

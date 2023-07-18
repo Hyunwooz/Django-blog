@@ -52,4 +52,5 @@ class Profile(models.Model):
     avatarUrl = models.ImageField(upload_to='user/media',null=True)
     aboutMe = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     

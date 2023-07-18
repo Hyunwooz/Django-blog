@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import authenticate, login, logout
-from .forms import JoinForm, LoginForm, ProfileForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model
+from .forms import JoinForm, LoginForm, ProfileForm
 from .models import Profile as Profiles
 
 User = get_user_model()
@@ -67,9 +69,31 @@ class Login(View):
 ### Logout
 class Logout(View):
     def get(self, request):
-            logout(request)
+        logout(request)
+        return redirect('blog:list')
+        
+        
+class ChangePassWord(View):
+    def get(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        context = {
+            'form': form
+        }
+        return render(request,'user/user_change_pw.html',context)
+    def post(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
             return redirect('blog:list')
         
+        form.add_error(None,'Error 발생')
+        context = {
+            'form': form
+        }
+        return render(request,'user/user_change_pw.html',context)
+    
+    
 ### Profile
 class Profile(View):
     def get(self, request):
@@ -88,8 +112,9 @@ class Profile(View):
         user = User.objects.get(pk=request.user.pk)
         avatarUrl = request.FILES['avatarUrl']
         name = request.POST['name']
+        aboutMe = request.POST['aboutMe']
         
-        profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name)
+        profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name, aboutMe=aboutMe)
         user.is_profile = True
         user.save()
         

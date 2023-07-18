@@ -26,7 +26,11 @@
                 <li>
                     <a href="{% url 'blog:detail' pk=post.pk %}" class="post">
                         <article>
-                            <img src="{% static 'blog/images/post-img6.jpg' %}" alt="" />
+                            {% if post.thumbnail %}
+                                <img src="{{ post.thumbnail }}" alt="" />
+                            {% else %}
+                                <img src="{% static 'blog/images/post-img6.jpg' %}" alt="" />
+                            {% endif %}
                             <div class="contents-wrap">
                                 <!-- category -->
                                 <dl class="category">

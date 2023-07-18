@@ -1,4 +1,4 @@
-{% extends 'user/base.html' %} 
+{% extends 'base.html' %} 
 {% load static %}
 
 {% block content %}
@@ -8,4 +8,5 @@
         {{ form.as_p }}
         <input class="btn btn-outline-success" type="submit" value="저장">
     </form>
+    <a href="{% url 'user:change-pw' %}">비밀번호 변경</a>
 {% endblock %}

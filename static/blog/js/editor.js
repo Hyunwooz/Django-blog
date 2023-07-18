@@ -1,5 +1,6 @@
 const Editor = toastui.Editor;
-const $save_btn = document.querySelector('.post_save')
+const $save_btn = document.querySelector('.post_save');
+const $thumbnail_btn = document.querySelector('.post_thumbnail');
 
 const getCookie = function(name){
     const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
@@ -7,7 +8,6 @@ const getCookie = function(name){
 }
 
 const csrf_token = getCookie('csrftoken');
-
 const editor = new Editor({
     el: document.querySelector('#editor'),
     height: '600px',
@@ -46,15 +46,45 @@ const editor = new Editor({
     }
 });
 
+let thumbnail ;
+
+const thumbnailFunc = () =>{
+    const formData = new FormData();
+    formData.append('image', $thumbnail_btn.files[0]);
+    
+    $.ajax({
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        url: '/blog/imageupload/',
+        data: formData,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        beforeSend : function(xhr){
+            xhr.setRequestHeader("X-CSRFToken",csrf_token);
+        },
+        success: function(data) {
+            thumbnail = data.url
+            console.log('Result: 성공')
+        },
+        error: function(e) {
+            console.log(e)
+        }
+    });
+}
+
 const postSave = (event) => {
     event.preventDefault()
     const title = document.querySelector('.post_title').value
     const category = document.querySelector('.post_category').value
-    
+
     const post = {
         "title": title,
         "content": editor.getHTML(),
         "category": category,
+        "thumbnail": '/media/'+ thumbnail
     }
 
     $.ajax({
@@ -77,3 +107,4 @@ const postSave = (event) => {
 }
 
 $save_btn.addEventListener('click',postSave)
+$thumbnail_btn.addEventListener('change',thumbnailFunc)

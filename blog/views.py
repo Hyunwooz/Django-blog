@@ -10,7 +10,7 @@ from .serializers import PostSerializer
 class Index(View):
     def get(self, request):
         post_objs = Post.objects.all().filter(status='active').order_by('-created_at')
-        categories = ['T1','T2']
+        categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
             "posts": post_objs,
             "categories": categories
@@ -37,13 +37,14 @@ class Write(LoginRequiredMixin, View):
         title = request.POST['title']
         content = request.POST['content']
         category = request.POST['category']
+        thumbnail = request.POST['thumbnail']
 
-        post = Post.objects.create(title=title, content=content, category=category, writer=user)
-        serializer = PostSerializer(post)
+        post = Post.objects.create(title=title, content=content, category=category, writer=user,thumbnail=thumbnail)
+        # serializer = PostSerializer(post)
         data = {
             'message': '저장이 완료되었습니다.'
         }
-        return JsonResponse(data)    
+        return JsonResponse(data)
 
 class Detail(View):
     def get(self, request, pk):
@@ -78,7 +79,7 @@ class Update(LoginRequiredMixin, View):
     def get(self, request, pk):
         post = Post.objects.get(pk=pk)
         if post.writer == request.user:
-            form = PostForm(initial={'title': post.title, 'content': post.content, 'category': post.category})
+            form = PostForm(initial={'title': post.title, 'content': post.content, 'category': post.category, 'thumbnail': post.thumbnail})
             context = {
                 'form': form,
                 'post': post,
