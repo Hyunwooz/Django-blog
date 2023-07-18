@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # SESSION
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-SESSION_COOKIE_AGE = 86400   # 24h * 60m * 60 -> client(browser)
+SESSION_COOKIE_AGE = 20   # 24h * 60m * 60 -> client(browser)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Internationalization
