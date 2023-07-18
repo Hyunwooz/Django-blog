@@ -9,7 +9,7 @@ from .serializers import PostSerializer
 ### Post
 class Index(View):
     def get(self, request):
-        post_objs = Post.objects.all().filter(status='active')
+        post_objs = Post.objects.all().filter(status='active').order_by('-created_at')
         categories = ['T1','T2']
         context = {
             "posts": post_objs,
@@ -125,7 +125,7 @@ class ImgUpload(View):
 
 class Search(View):
     def get(self, request):
-        post_objs = Post.objects.all().filter(status='active',title__contains=request.GET['keyword'])
+        post_objs = Post.objects.all().filter(status='active',title__contains=request.GET['keyword']).order_by('-created_at')
         categories = ['T1','T2']
         context = {
             "posts": post_objs,

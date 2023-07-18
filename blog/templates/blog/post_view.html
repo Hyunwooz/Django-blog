@@ -16,7 +16,14 @@
 					<!-- author -->
 					<dl class="author-wrap">
 						<dt class="a11y-hidden">Author</dt>
-						<dd class="author"><img src="{% static 'blog/images/profile.jpg' %}" alt="" /> {{ post.writer.name }}</dd>
+						<dd class="author">
+							{% if post.writer.profile.avatarUrl.url %}
+								<img src="{{ post.writer.profile.avatarUrl.url }}" alt="" />
+							{% else %}
+								<img src="{%static 'user/image/basic_profile.jpg'%}" alt=""/>
+							{% endif %}
+							{{ post.writer.name }}
+						</dd>
 						<dt class="a11y-hidden">Created</dt>
 						<dd class="created">{{ post.created_at }}</dd>
 						<dt class="a11y-hidden">Views</dt>

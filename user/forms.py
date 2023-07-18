@@ -23,4 +23,4 @@ class ProfileForm(forms.ModelForm):
     
     class Meta:
         model = Profile
-        fields = ['avatarUrl', 'name']
+        fields = ['avatarUrl', 'name' , 'aboutMe']

@@ -43,7 +43,14 @@
                                 <!-- author -->
                                 <dl class="author-wrap">
                                     <dt class="a11y-hidden">Author</dt>
-                                    <dd class="author"><img src="{{ post.writer.profile.avatarUrl.url }}" alt="" /> {{ post.writer.profile.name }}</dd>
+                                    <dd class="author">
+                                        {% if post.writer.profile.avatarUrl.url %}
+                                            <img src="{{post.writer.profile.avatarUrl.url}}" alt="" />
+                                        {% else %}
+                                            <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" />
+                                        {% endif %}
+                                        {{ post.writer.profile.name }}
+                                    </dd>
                                     <dt class="a11y-hidden">Created</dt>
                                     <dd class="created">{{post.created_at}}</dd>
                                 </dl>
@@ -63,7 +70,11 @@
             {% if request.user.is_authenticated %}
             <aside class="about">
                 <h2>About Me</h2>
-                <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
+                {% if request.user.profile.avatarUrl.url %}
+                    <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
+                {% else %}
+                    <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-profile" />
+                {% endif %}
                 <p class="user-name">{{request.user.profile.name}}</p>
                 <p class="user-description">{{request.user.profile.aboutMe}}</h3>
                 <ul class="categories">

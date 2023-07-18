@@ -99,7 +99,7 @@ class Profile(View):
 class ProfileUpdate(View):
     def get(self, request):
         profile = Profiles.objects.get(user=request.user.pk)
-        form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name})
+        form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name , 'aboutMe': profile.aboutMe})
         context = {
             'form': form,
         }
@@ -110,15 +110,17 @@ class ProfileUpdate(View):
         user = User.objects.get(pk=request.user.pk)
         profile = Profiles.objects.get(user=user)
         name = request.POST['name']
+        aboutMe = request.POST['aboutMe']
         
         try:
             avatarUrl = request.FILES['avatarUrl']
         except:
             profile.name = name
+            profile.aboutMe = aboutMe
         else:
             profile.name = name
             profile.avatarUrl = avatarUrl
+            profile.aboutMe = aboutMe
         
         profile.save()
-        
         return redirect('blog:list')

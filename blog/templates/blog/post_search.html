@@ -35,7 +35,10 @@
                                 <h3>{{post.title}}</h3>
 
                                 <!-- author -->
-
+                                <dl class="post-views">
+                                    <dt class="a11y-hidden">views</dt>
+                                    <dd class="views">Views : {{post.views}}</dd>
+                                </dl>
                                 <dl class="author-wrap">
                                     <dt class="a11y-hidden">Author</dt>
                                     <dd class="author"><img src="{{ post.writer.profile.avatarUrl.url }}" alt="" /> {{ post.writer.profile.name }}</dd>
@@ -44,14 +47,7 @@
                                 </dl>
                                 
                                 <!-- //author -->
-
-                                <p class="post-description">
-                                    {{post.content}}
-                                </p>
-                                <dl class="author-wrap">
-                                    <dt class="a11y-hidden">views</dt>
-                                    <dd class="views">Views : {{post.views}}</dd>
-                                </dl>
+                                
                             </div>
                         </article>
                     </a>
@@ -59,7 +55,11 @@
                 {% endfor %}
             </ul>
             {% else %}
-                <p>작성된 게시물이 없습니다.</p>
+            <ul class="posts">
+                <li>
+                    해당 게시물이 존재하지 않습니다.
+                </li>
+            </ul>
             {% endif %}
             <!-- //posts -->
         </div>
