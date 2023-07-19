@@ -9,9 +9,15 @@
         <link rel="stylesheet" href="{% static 'blog/css/reset.css' %}" />
         <!-- font : pretendard -->
 		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-
 		<link rel="stylesheet" href="{% static 'blog/css/global.css' %}" />
-
+		<!-- fontawesome -->
+		<link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        />
 		<!-- layout -->
 		<link rel="stylesheet" href="{% static 'blog/css/header.css' %}" />
 		<link rel="stylesheet" href="{% static 'blog/css/footer.css' %}" />
@@ -19,11 +25,22 @@
 
 		<!-- component -->
 		<link rel="stylesheet" href="{% static 'blog/css/button.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/category.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/author.css' %}" />
+
+		<!-- blog -->
+		<link rel="stylesheet" href="{% static 'blog/css/post.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/posts.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'blog/css/wrapbox.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/view.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/write.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/comment.css' %}" />
 
 		<!-- user -->
-		<link rel="stylesheet" href="{% static 'user/css/login.css' %}" />
-		<link rel="stylesheet" href="{% static 'user/css/global.css' %}" />
-
+		<link rel="stylesheet" href="{% static 'user/css/profile.css' %}" />
+		<link rel="stylesheet" href="{% static 'user/css/change-pw.css' %}" />
+		
     </head>
     <body>
         <!-- header -->
@@ -50,7 +67,7 @@
 						</a>
 					</li>
 					<li class="profile-img">
-						<a href="{%url 'user:profile' %}">
+						<a href="{%url 'user:pf-create' %}">
 							{% if request.user.profile.avatarUrl.url %}
 								<img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
 							{% else %}

@@ -1,0 +1,88 @@
+
+.user-profile-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 3rem;
+	padding-bottom: 7rem;
+	width: 50rem;
+}
+
+.user-profile-form h2 {
+	font-size: 4.5rem;
+	font-weight: bold;
+	margin-bottom: 2rem;
+	color:  rgb(102, 162, 253);;
+}
+
+.user-profile-form .user-avatar {
+	width: 12rem;
+	height: 12rem;
+	object-fit: cover;
+	border-radius: 50%;
+	margin-bottom: 2rem;
+}
+
+.aboutMe_div,
+.name_div,
+.avatar_div {
+	width: 35rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.user-profile-form label{
+	font-weight: bold;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.user-profile-form input{
+	width: 35rem;
+	height: 5rem;
+	border: none;
+	padding: 0.5rem 1.8rem 0.5rem 1.8rem;
+}
+
+.user-profile-form textarea {
+	width: 35rem;
+	height: 20rem;
+	resize: none;
+	border: none;
+	padding: 1rem 1.8rem 1rem 1.8rem;
+	font-size: 1.4rem;
+}
+
+#profile-avatar {
+	background: none;
+}
+
+.user-profile-form input:not(.pf-save_btn){
+	background-color: rgb(255, 255, 255);
+}
+
+.pf-save_btn {
+	font-weight: bold;
+	margin-top: 2rem;
+	background: rgb(102, 162, 253);
+	color: white;
+}
+
+.change-pw_btn {
+	font-weight: bold;
+	margin-top: 2rem;
+	background: rgb(102, 162, 253);
+	color: white;
+	width: 35rem;
+	height: 5rem;
+	border-radius: 0;
+	text-align: center;
+	line-height: 5rem;
+}
+
+.errorlist {
+	font-weight: bold;
+}

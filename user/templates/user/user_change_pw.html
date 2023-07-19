@@ -2,10 +2,11 @@
 {% load static %}
 
 {% block content %}
-    <h2>비밀번호 변경</h2>
-    <form action="{% url 'user:change-pw' %}" method="post">
+    <form class="change-pw" action="{% url 'user:change-pw' %}" method="post">
+        <h2>Change Password</h2>
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="btn btn-outline-success" type="submit" value="변경">
+        <input class="change-btn" type="submit" value="변경">
     </form>
+    <script src="{% static 'user/js/change-pw.js' %}"></script>
 {% endblock %}

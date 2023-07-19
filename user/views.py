@@ -103,6 +103,7 @@ class Profile(View):
         form = ProfileForm()
         context = {
             'form': form,
+            'type': 'create'
         }
         return render(request, 'user/user_profile.html', context)
         
@@ -126,8 +127,9 @@ class ProfileUpdate(View):
         form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name , 'aboutMe': profile.aboutMe})
         context = {
             'form': form,
+            'type': 'edit'
         }
-        return render(request, 'user/user_pf_edit.html', context)
+        return render(request, 'user/user_profile.html', context)
         
     def post(self, request):
         

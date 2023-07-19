@@ -26,7 +26,7 @@
 	text-transform: uppercase;
 }
 
-.wrap-box h3 {
+.wrap-box h3:not(.comment_title) {
 	margin-bottom: 4.8rem;
 	font-size: 2rem;
 	font-weight: bold;
@@ -36,9 +36,9 @@
 .wrap-box ul {
 	margin-bottom: 2.4rem;
 }
-.wrap-box ul li:not(:first-child) {
+/* .wrap-box ul li:not(:first-child) {
 	margin-top: 4rem;
-}
+} */
 
 /* view, write */
 .mypage .wrap-box,

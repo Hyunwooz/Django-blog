@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %} 
+{% extends 'base.html' %} 
 {% load static %}
 
 {% block content %}
@@ -35,6 +35,7 @@
 						<dt class="a11y-hidden">Category</dt>
 						<dd>{{ post.category }}</dd>
 					</dl>
+					<hr />
 					<!-- //category -->
 					<div class="view-contents">
 						{{ post.content | safe }}
@@ -42,28 +43,40 @@
 					<hr />
 					<!-- 댓글 작성 화면 -->
 					<h3 class='comment_title'>Comments</h3>
+					{% if request.user.is_authenticated %}
+					<form class='comment_input' style="display: flex; align-items: center;" action="{% url 'blog:cm-write' pk=post.pk %}" method="post">
+						{% if request.user.profile.avatarUrl.url %}
+                            <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="loginuser_avatar" />
+                        {% else %}
+                            <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="loginuser_avatar" />
+                        {% endif %}
+						{% csrf_token %}
+						{{ comment_form.content }}
+						<button calss="comment-submit" type="submit" value=""><i class="fa-solid fa-paper-plane"></i></button>
+					</form>
+					{% endif %}
 					<!-- 댓글 출력 화면 -->
 					<ul class='post_comments'>
 						{% if comments %}
 						{% for comment in comments %}
-							<li>
-								<p>{{ comment.writer }}</p>
-								<p>{{ comment.content }}</p>
-								<form action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
+							<li class='post_comment'>
+								<img class='comment_writer_avatar' src={{comment.writer.profile.avatarUrl.url}}></img>
+								<div class='comment_writer_info'>
+									<p class='comment_writer_name'>{{ comment.writer.profile.name }}</p>
+									<p class='comment_writer_content'>{{ comment.content }}</p>
+								</div>
+								{% if request.user == comment.writer %}
+								<form class='comment_writer_delete' action="{% url 'blog:cm-delete' pk=comment.pk %}" method="post">
 									{% csrf_token %}
-									<input type="submit" class="btn btn-outline-success" value="X"></input>
+									<input type="submit" class="btn-delete" value=""></input>
 								</form>
+								{% endif %}
 							</li>
 						{% endfor %}
 						{% else %}
 							<li>댓글이 없습니다.</li>
 						{% endif %}
-						</ul>
-					<form class='comment_input' style="display: flex; align-items: center;" action="{% url 'blog:cm-write' pk=post.pk %}" method="post">
-						{% csrf_token %}
-						{{ comment_form.content }}
-						<input style="margin-left: 5px;" type="submit" class="btn btn-outline-success" value="댓글 작성"></input>
-					</form>
+					</ul>
 					{% if request.user == post.writer %}
 						<div class="btn-group">
 							<a href="{% url 'blog:edit' pk=post.pk %}" class="btn-modify">

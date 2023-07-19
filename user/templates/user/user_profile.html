@@ -2,10 +2,33 @@
 {% load static %}
 
 {% block content %}
-    <h2>프로필</h2>
-    <form action="{% url 'user:profile' %}" enctype="multipart/form-data" method="post">
+    {% if type != 'edit' %}
+    <form class="user-profile-form" action="{% url 'user:pf-create' %}" enctype="multipart/form-data" method="post">
+    {% else %}
+    <form class="user-profile-form" action="{% url 'user:pf-edit' %}" enctype="multipart/form-data" method="post">
+    {% endif %}
+        <h2>Profile</h2>
+        <h3>My Avatar</h3>
+        {% if request.user.profile.avatarUrl.url %}
+            <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-avatar" />
+        {% else %}
+            <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-avatar" />
+        {% endif %}
         {% csrf_token %}
-        {{ form.as_p }}
-        <input class="btn btn-outline-success" type="submit" value="저장">
+        <div class="avatar_div">
+            <label for="profile-avatar">이미지 변경하기</label>
+            <input type="file" id="profile-avatar" name="{{ form.avatarUrl.name }}" value="{{ form.initial.avatarUrl }}">
+        </div>
+        <div class="name_div">
+            <label for="profile-name">닉네임</label>
+            <input type="text" id="profile-name" name="{{ form.name.name }}" value="{{ form.initial.name }}">
+        </div>
+        <div class="aboutMe_div">
+            <label for="profile-aboutMe">자기소개</label>
+            <textarea id="profile-aboutMe"  name="{{ form.aboutMe.name }}" type="text" rows="20">{{ form.initial.aboutMe }}</textarea>
+        </div>
+        <input class="pf-save_btn" type="submit" value="저장">
+        <a class="change-pw_btn" href="{% url 'user:change-pw' %}">비밀번호 변경 하러가기</a>
     </form>
+    
 {% endblock %}

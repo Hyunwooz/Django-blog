@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %} 
+{% extends 'base.html' %} 
 {% load static %}
 
 {% block content %}
@@ -108,7 +108,7 @@
                     {% endfor %}
                 </ul>
                 {% else %}
-                    <p>작성된 게시물이 없습니다.</p>
+                    <p class="nonexistent">작성된 게시물이 없습니다.</p>
                 {% endif %}
             </section>
             <!-- //posts -->
