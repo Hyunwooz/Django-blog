@@ -14,9 +14,14 @@
 	letter-spacing: -0.01em;
 }
 
+/* thumbnail */
+.inner .img-wrap {
+	border-radius: 1rem;
+}
+
 /* title */
 .view .wrap-box .author-wrap {
-	height: 6.4rem;
+	height: 3.4rem;
 	font-size: 1.4rem;
 }
 .title-wrap {
@@ -25,6 +30,7 @@
 	justify-content: space-between;
 	gap: 8rem;
 	margin-bottom: 1rem;
+	margin-top: 2rem;
 	font-size: 1.6rem;
 }
 .title-wrap h2 {
@@ -54,7 +60,7 @@
 }
 
 .view .category {
-	margin: 2rem 0 1rem 0;
+	margin: 1rem 0 1rem 0;
 }
 
 @media (max-width: 1024px) {

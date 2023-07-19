@@ -13,8 +13,15 @@
 	font-size: 1.4rem;
 	margin-bottom: 1rem;
 }
-.post article > img {
+
+.img-wrap {
 	width: 100%;
+	height: 30rem;
+}
+
+.img-wrap > img {
+	box-sizing: border-box;
+	object-fit: cover;
 }
 
 .contents-wrap {

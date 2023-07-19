@@ -7,10 +7,10 @@
     <!-- 제목 -->
     <!-- 내용 -->
     <form class="post_write">
-        <p>제목<p>
-        <input class="post_title" type="text" name="title" placeholder="제목을 입력하세요!"></input>
-        <p>카테고리<p>
-        <select class="post_category" name="category" id="category">
+        <p class="post_title">제목<p>
+        <input class="post_title_input" type="text" name="title" placeholder="제목을 입력하세요!"></input>
+        <p class="post_category">카테고리<p>
+        <select class="post_category_input" name="category" id="category">
             <option value="Life">Life</option>
             <option value="Style">Style</option>
             <option value="Tech">Tech</option>
@@ -19,10 +19,12 @@
             <option value="Develop">Develop</option>
             <option value="Music">Music</option>
         </select>
-        <p>썸네일 이미지<p>
-        <input class="post_thumbnail" type="file" name="thumbnail" accept="image/*"></input>
+        <p class="post_thumbnail">썸네일 이미지<p>
+        <input class="post_thumbnail_input" type="file" name="thumbnail" accept="image/*"></input>
         <div id="editor"></div>
-        <input class="post_save" type="submit" value="저장"></input>
+        <div class="save_btn">
+            <input class="post_save" type="submit" value="저장"></input>
+        </div>
     </form>
     <script src="{% static 'blog/js/modyfi.js' %}"></script>
 {% endblock %}

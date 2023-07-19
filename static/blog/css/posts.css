@@ -1,7 +1,42 @@
 .posts {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	display: flex;
+	flex-direction: column;
 	gap: 2.4rem;
+}
+
+.first_section {
+	width: 25%;
+}
+
+.third_section {
+	width: 15%;
+}
+
+.second_section {
+	width: 60%;
+}
+
+.header-search{
+	position: relative;
+	width: 100%;
+	margin-bottom: 2rem;
+}
+.header-search__text {
+	border-radius: 5px;
+	width: 100%;
+	background-color: rgb(238, 238, 238);
+	border: none;
+	padding: 5px 20px 5px 10px;
+}
+
+.header-search__btn {
+	position: absolute;
+	background: none;
+	border: none;
+	padding: 0;
+	font-size: 1.8rem;
+	bottom: 5px;
+	right: 5px;
 }
 
 @media (max-width: 768px) {

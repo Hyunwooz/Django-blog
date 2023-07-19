@@ -25,7 +25,6 @@
 
 		<!-- component -->
 		<link rel="stylesheet" href="{% static 'blog/css/button.css' %}" />
-		<link rel="stylesheet" href="{% static 'blog/css/banner.css' %}" />
 		<link rel="stylesheet" href="{% static 'blog/css/category.css' %}" />
 		<link rel="stylesheet" href="{% static 'blog/css/author.css' %}" />
 
@@ -35,6 +34,7 @@
 
         <link rel="stylesheet" href="{% static 'blog/css/wrapbox.css' %}" />
 		<link rel="stylesheet" href="{% static 'blog/css/view.css' %}" />
+		<link rel="stylesheet" href="{% static 'blog/css/write.css' %}" />
 	
     </head>
     <body>
@@ -46,12 +46,6 @@
 						<img src="{% static 'blog/assets/Logo.svg' %}" alt="My Blog" />
 					</a>
 				</h1>
-				<div class="header-search">
-					<form action="{% url 'blog:search' %}" method="get">
-						<input class='header-search__text' placeholder="Search by title" ,type="text" , name="keyword" , required>
-						<button class='header-search__btn' type='submit'><i class="fa-solid fa-magnifying-glass"></i></button>
-					</form>
-				</div>
 				<ul>
                     {% if request.user.is_authenticated %}
 					<!-- 로그인 -->

@@ -4,112 +4,125 @@
 {% block content %}
     <!-- main -->
     <main>
-        <!-- banner -->
-        <div class="banner">
-            <div class="max-width">
-                <div class="banner-contents">
-                    <p class="sub-text">Welcome!</p>
-                    <p class="main-text">BLOG</p>
-                    <p class="description">
-                        안녕하세요. 블로그에 오신걸 환영합니다 :) 재밌게 즐기다 가시길 바랍니다.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!-- //banner -->
         <!-- posts -->
         <div class="max-width">
             <h2 class="a11y-hidden">Post</h2>
-            {% if posts %}
-            <ul class="posts">
-                {% for post in posts %}
-                <li>
-                    <a href="{% url 'blog:detail' pk=post.pk %}" class="post">
-                        <article>
-                            {% if post.thumbnail %}
-                                <img src="{{ post.thumbnail }}" alt="" />
-                            {% else %}
-                                <img src="{% static 'blog/images/post-img6.jpg' %}" alt="" />
-                            {% endif %}
-                            <div class="contents-wrap">
-                                <!-- category -->
-                                <dl class="category">
-                                    <dt class="a11y-hidden">Category</dt>
-                                    <dd>{{ post.category }}</dd>
-                                </dl>
-                                <!-- //category -->
-
-                                <h3>{{post.title}}</h3>
-                                <dl class="post-views">
-                                    <dt class="a11y-hidden">views</dt>
-                                    <dd class="views">Views : {{post.views}}</dd>
-                                </dl>
-                                <!-- author -->
-                                <dl class="author-wrap">
-                                    <dt class="a11y-hidden">Author</dt>
-                                    <dd class="author">
-                                        {% if post.writer.profile.avatarUrl.url %}
-                                            <img src="{{post.writer.profile.avatarUrl.url}}" alt="" />
-                                        {% else %}
-                                            <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" />
-                                        {% endif %}
-                                        {{ post.writer.profile.name }}
-                                    </dd>
-                                    <dt class="a11y-hidden">Created</dt>
-                                    <dd class="created">{{post.created_at}}</dd>
-                                </dl>
-                                <!-- //author -->
-                            </div>
-                        </article>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-                <p>작성된 게시물이 없습니다.</p>
-            {% endif %}
-            <!-- //posts -->
-            <!-- about -->
-            {% if request.user.is_authenticated %}
-            <aside class="about">
-                <h2>About Me</h2>
-                {% if request.user.profile.avatarUrl.url %}
-                    <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
+            <section class='first_section'>
+                <h3>😁 Profile</h3>
+                {% if request.user.is_authenticated %}
+                    <aside class="about">
+                        {% if request.user.profile.avatarUrl.url %}
+                            <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
+                        {% else %}
+                            <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-profile" />
+                        {% endif %}
+                        <p class="user-name">{{request.user.profile.name}}</p>
+                        <p class="user-description">{{request.user.profile.aboutMe}}
+                    </aside>
                 {% else %}
-                    <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-profile" />
+                    <aside class="about">
+                        <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-profile" />
+                        <p class="user-name">User Name</p>
+                        <p class="user-description">Please Login :)</p>
+                    </aside>
                 {% endif %}
-                <p class="user-name">{{request.user.profile.name}}</p>
-                <p class="user-description">{{request.user.profile.aboutMe}}</h3>
-                <ul class="categories">
-                    {% for category in categories %}
-                        <li><a href="#">{{category}}</a></li>
+                <h3>💻 Repo</h3>
+                <aside class="about">
+                    <ul class="sns">
+                        <li>
+                            <a href="https://github.com/Hyunwooz/Django-blog">
+                                <img src="{% static 'blog//assets/Github.svg' %}" alt="GitHub" /> GitHub
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+                <h3>📱 Contact</h3>
+                <aside class="about">
+                    <ul class="sns">
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'blog/assets/Facebook.svg' %}" alt="Facebook" /> Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'blog/assets/Twitter.svg' %}" alt="Twitter" /> Twitter
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="{% static 'blog/assets/Instagram.svg' %}" alt="Instagram" /> Instagram
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+            </section>
+            <section class='second_section'>
+                <h3>🔎 search</h3>
+                <div class="header-search">
+                    <form action="{% url 'blog:search' %}" method="get">
+                        <input class='header-search__text' placeholder="Search by title" ,type="text" , name="keyword" , required>
+                        <button class='header-search__btn' type='submit'><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
+                <h3>🧷 Posts</h3>
+                {% if posts %}
+                <ul class="posts">
+                    {% for post in posts %}
+                    <li>
+                        <a href="{% url 'blog:detail' pk=post.pk %}" class="post">
+                            <article>
+                                {% if post.thumbnail %}
+                                    <div class="img-wrap" style="background-image: url({{ post.thumbnail }}); background-size: cover; background-position: center;">
+                                    </div>
+                                {% endif %}
+                                <div class="contents-wrap">
+                                    <h3>{{post.title}}</h3>
+                                    <!-- author -->
+                                    <dl class="author-wrap">
+                                        <dt class="a11y-hidden">Author</dt>
+                                        <dd class="author">
+                                            {% if post.writer.profile.avatarUrl.url %}
+                                                <img src="{{post.writer.profile.avatarUrl.url}}" alt="" />
+                                            {% else %}
+                                                <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" />
+                                            {% endif %}
+                                            {{ post.writer.profile.name }}
+                                        </dd>
+                                        <dt class="a11y-hidden">Created</dt>
+                                        <dd class="created">{{post.created_at}}</dd>
+                                        <dt class="a11y-hidden">views</dt>
+                                        <dd class="views">Views : {{post.views}}</dd>
+                                    </dl>
+                                    <!-- //author -->
+                                    <!-- category -->
+                                    <dl class="category">
+                                        <dt class="a11y-hidden">Category</dt>
+                                        <dd>{{ post.category }}</dd>
+                                    </dl>
+                                    <!-- //category -->
+                                </div>
+                            </article>
+                        </a>
+                    </li>
                     {% endfor %}
                 </ul>
-                <h3>Follow</h3>
-                <ul class="sns">
-                    <li>
-                        <a href="#">
-                            <img src="{% static 'blog/assets/Facebook.svg' %}" alt="Facebook" />
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="{% static 'blog/assets/Twitter.svg' %}" alt="Twitter" />
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="{% static 'blog/assets/Instagram.svg' %}" alt="Instagram" />
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="{% static 'blog//assets/Github.svg' %}" alt="GitHub" />
-                        </a>
-                    </li>
-                </ul>
-            </aside>
-            {% endif %}
+                {% else %}
+                    <p>작성된 게시물이 없습니다.</p>
+                {% endif %}
+            </section>
+            <!-- //posts -->
+            <!-- about -->
+            <section class='third_section'>
+                <h3>🎫 Category</h3>
+                    <aside class="about">
+                        <ul class="categories">
+                            {% for category in categories %}
+                                <li><a href="#">{{category}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </aside>
+            </section>
             <!--//about -->
         </div>
     </main>

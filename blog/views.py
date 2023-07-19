@@ -144,8 +144,11 @@ class ImgUpload(View):
 class Search(View):
     def get(self, request):
         post_objs = Post.objects.all().filter(status='active',title__contains=request.GET['keyword']).order_by('-created_at')
+        categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
             "posts": post_objs,
+            "categories": categories,
+            "keyword": request.GET['keyword']
         }
         return render(request, 'blog/post_search.html', context)
     
