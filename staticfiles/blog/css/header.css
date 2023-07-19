@@ -1,7 +1,7 @@
 /* Header */
 header {
 	/* background: var(--white-color); */
-	background-color: inherit;
+	background-color: #d4d4d4;
 }
 header .max-width {
 	display: flex;
