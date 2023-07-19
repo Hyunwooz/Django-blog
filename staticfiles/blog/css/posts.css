@@ -39,6 +39,11 @@
 	right: 5px;
 }
 
+.nonexistent {
+	font-weight: bold;
+	font-size: 1.8rem;
+}
+
 @media (max-width: 768px) {
 	.posts {
 		grid-template-columns: repeat(2, 1fr);

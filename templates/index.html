@@ -11,9 +11,11 @@
     </head>
     <body>
         <main class="container">
-            <h1>Welcome My Blog</h1>
-            <h2>Have a good time</h2>
-            <a href="{% url 'blog:list' %}">블로그 바로가기</a>
+            <h1 class="main_title">
+                <p>블로그에</p>
+                <p>찾아와주셔서 감사합니다 :)</p>
+            </h1>
+            <a class="main_link" href="{% url 'blog:list' %}">블로그 바로가기</a>
         </main>
     </body>
 </html>

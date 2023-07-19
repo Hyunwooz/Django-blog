@@ -2,12 +2,14 @@
 	position: relative;
 	width: 60rem;
 	max-width: calc(100% - 4rem);
-	margin: -22rem auto 0;
 	padding: 8rem 0;
 	border-radius: var(--border-radius);
 	background: var(--white-color);
 	font-size: 4rem;
 	transition: all 0.3s;
+	margin-top: 5rem;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .wrap-box .inner {
@@ -24,7 +26,7 @@
 	text-transform: uppercase;
 }
 
-.wrap-box h3 {
+.wrap-box h3:not(.comment_title) {
 	margin-bottom: 4.8rem;
 	font-size: 2rem;
 	font-weight: bold;
@@ -34,9 +36,9 @@
 .wrap-box ul {
 	margin-bottom: 2.4rem;
 }
-.wrap-box ul li:not(:first-child) {
+/* .wrap-box ul li:not(:first-child) {
 	margin-top: 4rem;
-}
+} */
 
 /* view, write */
 .mypage .wrap-box,
@@ -44,7 +46,6 @@
 .write .wrap-box {
 	width: 91.2rem;
 	max-width: 100%;
-	margin: -30rem 0 auto auto;
 	padding: 8rem;
 }
 
@@ -66,13 +67,13 @@
 	gap: 0.8rem;
 	position: absolute;
 	top: 9.2rem;
-	right: 8rem;
+	right: 10rem;
 	font-size: 1.6rem;
 }
 
 @media (max-width: 1024px) {
 	.wrap-box {
-		margin-top: -35rem;
+		/* margin-top: -35rem; */
 	}
 	.mypage .wrap-box,
 	.view .wrap-box,

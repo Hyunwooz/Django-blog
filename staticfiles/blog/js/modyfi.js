@@ -1,8 +1,8 @@
 const Editor = toastui.Editor;
-const $title = document.querySelector('.post_title')
-const $category = document.querySelector('.post_category')
+const $title = document.querySelector('.post_title_input')
+const $category = document.querySelector('.post_category_input')
 const $save_btn = document.querySelector('.post_save');
-const $thumbnail_btn = document.querySelector('.post_thumbnail');
+const $thumbnail_btn = document.querySelector('.post_thumbnail_input');
 
 const getCookie = function(name){
     const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');

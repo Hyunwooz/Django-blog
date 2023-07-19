@@ -12,6 +12,14 @@ main h3 {
 	margin-bottom: 2rem;
 }
 
+main h4 {
+	font-size: 1.4rem;
+	font-weight: bold;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+}
+
+
 @media (max-width: 1024px) {
 	main .max-width {
 		flex-direction: column;
