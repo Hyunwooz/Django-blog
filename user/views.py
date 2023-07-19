@@ -26,7 +26,7 @@ class Join(View):
             form.save()
             return redirect('user:login')
 
-        form.add_error(None, '회원가입 양식을 지켜주세요.')
+        form.add_error(None,'양식을 확인해주세요.')
         context = {
             'form': form
         }
@@ -57,8 +57,7 @@ class Login(View):
                 login(request, user)
                 return redirect('blog:list')
             
-        form.add_error(None, '아이디가 없습니다.')
-        
+        form.add_error(None, '양식을 확인해주세요.')
         context = {
             'form': form
         }

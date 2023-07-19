@@ -87,21 +87,10 @@ class Update(LoginRequiredMixin, View):
     
     def post(self, request, pk):
         post = Post.objects.get(pk=pk)
-        data = {
-            'title': post.title,
-            'content': post.content,
-            'category': post.category,
-            'thumbnail': str(post.thumbnail)
-        }
-        return JsonResponse(data)
-
-    def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
         # title = request.POST['title']
         post.title = request.POST['title']
         post.content = request.POST['content']
         post.category = request.POST['category']
-        
         thumbnail = request.POST['thumbnail']
         
         if thumbnail != "blank":
@@ -129,6 +118,11 @@ class LoadPost(View):
 
 class Delete(View):
     def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        
+        if post.writer != request.user:
+            return redirect('blog:list')
+        
         post = Post.objects.get(pk=pk)
         post.status = 'delete'
         post.save()
@@ -186,12 +180,14 @@ class CommentDelete(View):
         
         comment = Comment.objects.get(pk=pk)
         
-        if request.user == comment.writer:
-            post_id = comment.post.id
-            comment.status = 'delete'
-            comment.save()
+        if request.user != comment.writer:
+            return render(request,'blog/error.html')
         
-            return redirect('blog:detail', pk=post_id)
+        post_id = comment.post.id
+        comment.status = 'delete'
+        comment.save()
+    
+        return redirect('blog:detail', pk=post_id)
+    
         
-        return render(request,'blog/error.html')
     

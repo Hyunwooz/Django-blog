@@ -9,9 +9,15 @@
         <link rel="stylesheet" href="{% static 'blog/css/reset.css' %}" />
         <!-- font : pretendard -->
 		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
-
 		<link rel="stylesheet" href="{% static 'blog/css/global.css' %}" />
-
+		<!-- fontawesome -->
+		<link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        />
 		<!-- layout -->
 		<link rel="stylesheet" href="{% static 'blog/css/header.css' %}" />
 		<link rel="stylesheet" href="{% static 'blog/css/footer.css' %}" />
@@ -40,15 +46,27 @@
 						<img src="{% static 'blog/assets/Logo.svg' %}" alt="My Blog" />
 					</a>
 				</h1>
-				<div>
+				<div class="header-search">
 					<form action="{% url 'blog:search' %}" method="get">
-						<input placeholder="Search by title" ,type="text" , name="keyword" , required>
-						<input type='submit' value="찾기">
+						<input class='header-search__text' placeholder="Search by title" ,type="text" , name="keyword" , required>
+						<button class='header-search__btn' type='submit'><i class="fa-solid fa-magnifying-glass"></i></button>
 					</form>
 				</div>
 				<ul>
                     {% if request.user.is_authenticated %}
 					<!-- 로그인 -->
+					<li>
+						<a href="{% url 'blog:write' %}" class="button">
+							<img src="{% static 'blog/assets/icon-modify-white.svg' %}" alt="" />
+							<span>Write</span>
+						</a>
+					</li>
+					<li>
+						<a href="{%url 'user:logout' %}" class="button gray">
+							<img src="{% static 'blog/assets/icon-logout.svg' %}" alt="" />
+							<span>Logout</span>
+						</a>
+					</li>
 					<li class="profile-img">
 						<a href="{%url 'user:profile' %}">
 							{% if request.user.profile.avatarUrl.url %}
@@ -58,31 +76,19 @@
 							{% endif %}
 						</a>
 					</li>
-					<li>
-						<a href="{% url 'blog:write' %}" class="button">
-							<img src="{% static 'blog/assets/icon-modify-white.svg' %}" alt="" />
-							<span>Write</span>
-						</a>
-					</li>
-					<li>
-						<button class="button white">
-							<img src="{% static 'blog/assets/icon-logout.svg' %}" alt="" />
-							<a href="{%url 'user:logout' %}">Logout</a>
-						</button>
-					</li>
 					<!-- //로그인 -->
                     {% else %}
 					<!-- 로그아웃 -->
 					<li>
-						<a href="#" class="button gray">
+						<a href="{%url 'user:login' %}" class="button gray">
 							<img src="{% static 'blog/assets/icon-login.svg' %}" alt="" />
-							<a href="{%url 'user:login' %}">Login</a>
+							<span>Login</span>
 						</a>
 					</li>
 					<li class="only-pc">
-						<a href="#" class="button gray">
+						<a href="{%url 'user:join' %}" class="button gray">
 							<img src="{% static 'blog/assets/icon-register.svg' %}" alt="" />
-							<a href="{%url 'user:join' %}">join</a>
+							<span>join</span>
 						</a>
 					</li>
 					<!--// 로그아웃 -->
@@ -99,7 +105,6 @@
 		<footer>
 			<div class="max-width">
 				<h2>Copyright 2023. Chilli All rights reserved.</h2>
-				<button class="top-button">TOP</button>
 			</div>
 		</footer>
 		<!-- //footer -->

@@ -1,10 +1,32 @@
-{% extends 'base.html' %} 
+<!DOCTYPE html>
+<html lang="ko">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>블로그</title>
+        <link rel="stylesheet" href="{% static 'blog/css/reset.css' %}" />
+        <!-- font : pretendard -->
+		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+		<link rel="stylesheet" href="{% static 'blog/css/global.css' %}" />
 
-{% block content %}
-    <h2>회원가입 페이지</h2>
-    <form action="{% url 'user:join' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input class="btn btn-outline-success" type="submit" value="회원가입">
-    </form>
-{% endblock %}
+		<!-- component -->
+		<link rel="stylesheet" href="{% static 'blog/css/button.css' %}" />
+
+		<!-- user -->
+		<link rel="stylesheet" href="{% static 'user/css/join.css' %}" />
+
+    </head>
+    <body>
+        <main>
+            <form class="user-join" action="{% url 'user:join' %}" method="post">
+                <h2>JOIN</h2>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="join_btn" type="submit" value="회원가입">
+            </form>
+        </main>
+    </body>
+    <script src="{% static 'user/js/join.js' %}"></script>
+</html>
