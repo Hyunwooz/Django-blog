@@ -71,7 +71,7 @@ const loadPostData = () => {
         },
         success: function(data) {
             $title.value = data.title
-            $category.value = data.category
+            $category.value = data.category.name
             editor.setHTML(data.content)
         },
         error: function(e) {

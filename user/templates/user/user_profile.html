@@ -9,7 +9,7 @@
     {% endif %}
         <h2>Profile</h2>
         <h3>My Avatar</h3>
-        {% if request.user.profile.avatarUrl.url %}
+        {% if request.user.profile.avatarUrl %}
             <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-avatar" />
         {% else %}
             <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-avatar" />

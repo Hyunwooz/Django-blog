@@ -12,7 +12,7 @@
                 {% if request.user.is_authenticated %}
                     <aside class="about">
                         {% if request.user.profile.avatarUrl.url %}
-                            <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
+                            <img src="{{request.user.profile.avatarUrl}}" alt="" class="user-profile" />
                         {% else %}
                             <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-profile" />
                         {% endif %}
@@ -119,7 +119,12 @@
                     <aside class="about">
                         <ul class="categories">
                             {% for category in categories %}
-                                <li><a href="#">{{category}}</a></li>
+                            <li>
+                                <form action="{% url 'blog:category' %}" method="get">
+                                    <input type="hidden", value="{{category}}", name="category">
+                                    <button class='category_search' type='submit'>{{category}}</button>
+                                </form>
+                            </li>
                             {% endfor %}
                         </ul>
                     </aside>

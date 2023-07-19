@@ -29,7 +29,7 @@
 .aboutMe_div,
 .name_div,
 .avatar_div {
-	width: 35rem;
+	width: 43rem;
 	display: flex;
 	flex-direction: column;
 }
@@ -41,14 +41,14 @@
 }
 
 .user-profile-form input{
-	width: 35rem;
+	width: 43rem;
 	height: 5rem;
 	border: none;
 	padding: 0.5rem 1.8rem 0.5rem 1.8rem;
 }
 
 .user-profile-form textarea {
-	width: 35rem;
+	width: 43rem;
 	height: 20rem;
 	resize: none;
 	border: none;
@@ -76,7 +76,7 @@
 	margin-top: 2rem;
 	background: rgb(102, 162, 253);
 	color: white;
-	width: 35rem;
+	width: 43rem;
 	height: 5rem;
 	border-radius: 0;
 	text-align: center;

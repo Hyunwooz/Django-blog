@@ -110,11 +110,16 @@ class Profile(View):
     def post(self, request):
         
         user = User.objects.get(pk=request.user.pk)
-        avatarUrl = request.FILES['avatarUrl']
         name = request.POST['name']
         aboutMe = request.POST['aboutMe']
         
-        profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name, aboutMe=aboutMe)
+        try:
+            avatarUrl = request.POST['avatarUrl']
+        except:
+            profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name, aboutMe=aboutMe)
+        else:
+            profile = Profiles.objects.create(user=user, name=name, aboutMe=aboutMe)
+
         user.is_profile = True
         user.save()
         

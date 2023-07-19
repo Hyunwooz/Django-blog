@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse 
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Subquery
 from .models import Post, Comment, ImageUpload, Category
 from .forms import PostForm, CommentForm
 
@@ -147,7 +148,7 @@ class ImgUpload(View):
 
 class Search(View):
     def get(self, request):
-        post_objs = Post.objects.all().filter(status='active',title__contains=request.GET['keyword']).order_by('-created_at')
+        post_objs = Post.objects.filter(status='active',title__contains=request.GET['keyword']).order_by('-created_at')
         categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
             "posts": post_objs,
@@ -159,16 +160,15 @@ class Search(View):
 
 class CategorySearch(View):
     def get(self, request):
-        # post_objs = Post.objects.all().filter(status='active').order_by('-created_at')
-        # hashtags = HashTag.objects.select_related('writer').filter(post=post)
-        posts_s =  Post.objects.select_related('category').filter(name=request.GET['category'])
+        
+        results = Category.objects.select_related().filter(name=request.GET['category'])
         categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
-            "posts": posts_s,
+            "results": results,
             "categories": categories,
-            "keyword": request.GET['keyword']
+            "keyword": request.GET['category']
         }
-        return render(request, 'blog/post_search.html', context)
+        return render(request, 'blog/post_category.html', context)
     
 ### Comment
 class CommentWrite(LoginRequiredMixin, View):

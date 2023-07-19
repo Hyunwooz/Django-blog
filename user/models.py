@@ -49,7 +49,7 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
     name = models.CharField(default='닉네임', max_length=50, null=True, blank=True)
-    avatarUrl = models.ImageField(upload_to='user/media',null=True)
+    avatarUrl = models.ImageField(upload_to='user/media',null=True,blank=True)
     aboutMe = models.TextField(default='자신을 소개해주세요 :)',null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

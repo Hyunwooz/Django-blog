@@ -66,39 +66,40 @@
                     </form>
                 </div>
                 <h3>🧷 Posts</h3>
-                {% if posts %}
+                <h4>"{{ keyword }}" 카테고리 모음입니다.</h4>
+                {% if results %}
                 <ul class="posts">
-                    {% for post in posts %}
+                    {% for result in results %}
                     <li>
-                        <a href="{% url 'blog:detail' pk=post.pk %}" class="post">
+                        <a href="{% url 'blog:detail' pk=result.post.pk %}" class="post">
                             <article>
-                                {% if post.thumbnail %}
-                                    <div class="img-wrap" style="background-image: url({{ post.thumbnail }}); background-size: cover; background-position: center;">
+                                {% if result.post.thumbnail %}
+                                    <div class="img-wrap" style="background-image: url({{ result.post.thumbnail }}); background-size: cover; background-position: center;">
                                     </div>
                                 {% endif %}
                                 <div class="contents-wrap">
-                                    <h3>{{post.title}}</h3>
+                                    <h3>{{result.post.title}}</h3>
                                     <!-- author -->
                                     <dl class="author-wrap">
                                         <dt class="a11y-hidden">Author</dt>
                                         <dd class="author">
-                                            {% if post.writer.profile.avatarUrl.url %}
-                                                <img src="{{post.writer.profile.avatarUrl.url}}" alt="" />
+                                            {% if result.post.writer.profile.avatarUrl.url %}
+                                                <img src="{{result.post.writer.profile.avatarUrl.url}}" alt="" />
                                             {% else %}
                                                 <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" />
                                             {% endif %}
-                                            {{ post.writer.profile.name }}
+                                            {{ result.post.writer.profile.name }}
                                         </dd>
                                         <dt class="a11y-hidden">Created</dt>
-                                        <dd class="created">{{post.created_at}}</dd>
+                                        <dd class="created">{{result.post.created_at}}</dd>
                                         <dt class="a11y-hidden">views</dt>
-                                        <dd class="views">Views : {{post.views}}</dd>
+                                        <dd class="views">Views : {{result.post.views}}</dd>
                                     </dl>
                                     <!-- //author -->
                                     <!-- category -->
                                     <dl class="category">
                                         <dt class="a11y-hidden">Category</dt>
-                                        <dd>{{ post.category.name }}</dd>
+                                        <dd>{{ result.name }}</dd>
                                     </dl>
                                     <!-- //category -->
                                 </div>
@@ -118,12 +119,12 @@
                     <aside class="about">
                         <ul class="categories">
                             {% for category in categories %}
-                                <li>
-                                    <form action="{% url 'blog:category' %}" method="get">
-                                        <input type="hidden", value="{{category}}", name="category">
-                                        <button class='category_search' type='submit'>{{category}}</button>
-                                    </form>
-                                </li>
+                            <li>
+                                <form action="{% url 'blog:category' %}" method="get">
+                                    <input type="hidden", value="{{category}}", name="category">
+                                    <button class='category_search' type='submit'>{{category}}</button>
+                                </form>
+                            </li>
                             {% endfor %}
                         </ul>
                     </aside>

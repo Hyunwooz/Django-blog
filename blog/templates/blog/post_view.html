@@ -45,7 +45,7 @@
 					<h3 class='comment_title'>Comments</h3>
 					{% if request.user.is_authenticated %}
 					<form class='comment_input' style="display: flex; align-items: center;" action="{% url 'blog:cm-write' pk=post.pk %}" method="post">
-						{% if request.user.profile.avatarUrl.url %}
+						{% if request.user.profile.avatarUrl %}
                             <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="loginuser_avatar" />
                         {% else %}
                             <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="loginuser_avatar" />

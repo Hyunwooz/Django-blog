@@ -5,7 +5,6 @@ User = get_user_model()
 
 # Create your models here.
 class Post(models.Model):
-    
     title = models.CharField(max_length=30)
     content = models.TextField()
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -17,7 +16,6 @@ class Post(models.Model):
     
 
 class Category(models.Model):
-    
     post = models.OneToOneField("Post", on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
 
