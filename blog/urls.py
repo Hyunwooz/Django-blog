@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Index, Write, Detail, Delete, Update, CommentWrite, CommentDelete, Search, ImgUpload, LoadPost
+from .views import Index, Write, Detail, Delete, Update, CommentWrite, CommentDelete, Search, ImgUpload, LoadPost, CategorySearch
 
 app_name = 'blog'
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('loadpost/<int:pk>/', LoadPost.as_view() , name='load'),
     path('delete/<int:pk>/', Delete.as_view() , name='delete'),
     path('search/', Search.as_view() , name='search'),
+    path('categorysearch/', CategorySearch.as_view() , name='category'),
     path('imageupload/', ImgUpload.as_view() , name='img-upload'),
     # comment
     path('comment/write/<int:pk>/', CommentWrite.as_view() , name='cm-write'),

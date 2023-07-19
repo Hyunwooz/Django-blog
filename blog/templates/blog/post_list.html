@@ -98,7 +98,7 @@
                                     <!-- category -->
                                     <dl class="category">
                                         <dt class="a11y-hidden">Category</dt>
-                                        <dd>{{ post.category }}</dd>
+                                        <dd>{{ post.category.name }}</dd>
                                     </dl>
                                     <!-- //category -->
                                 </div>
@@ -118,7 +118,12 @@
                     <aside class="about">
                         <ul class="categories">
                             {% for category in categories %}
-                                <li><a href="#">{{category}}</a></li>
+                                <li>
+                                    <form action="{% url 'blog:category' %}" method="get">
+                                        <input type="hidden", value="{{category}}", name="category">
+                                        <button class='category_search' type='submit'>{{category}}</button>
+                                    </form>
+                                </li>
                             {% endfor %}
                         </ul>
                     </aside>

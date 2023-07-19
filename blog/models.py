@@ -10,14 +10,19 @@ class Post(models.Model):
     content = models.TextField()
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(default='active', max_length=20)
-    category = models.CharField(max_length=30)
     thumbnail = models.ImageField(upload_to='blog/media',null=True,blank=True)
     views = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+
+class Category(models.Model):
     
+    post = models.OneToOneField("Post", on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
+
 class Comment(models.Model):
+    
     post = models.ForeignKey(Post, on_delete=models.CASCADE) 
     content = models.CharField(max_length=30)
     writer = models.ForeignKey(User, on_delete=models.CASCADE)

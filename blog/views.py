@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse 
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Comment, ImageUpload
+from .models import Post, Comment, ImageUpload, Category
 from .forms import PostForm, CommentForm
 
 ### Post
@@ -35,14 +35,15 @@ class Write(LoginRequiredMixin, View):
         user = request.user
         title = request.POST['title']
         content = request.POST['content']
-        category = request.POST['category']
         thumbnail = request.POST['thumbnail']
+        category = request.POST['category']
         
         if thumbnail != "blank":
-            post = Post.objects.create(title=title, content=content, category=category, writer=user,thumbnail=thumbnail)
+            post = Post.objects.create(title=title, content=content, writer=user,thumbnail=thumbnail)
         else:
-            post = Post.objects.create(title=title, content=content, category=category, writer=user)
-
+            post = Post.objects.create(title=title, content=content, writer=user)
+        category = Category.objects.create(post=post,name=category)
+        
         # serializer = PostSerializer(post)
         data = {
             'message': '저장이 완료되었습니다.'
@@ -86,17 +87,20 @@ class Update(LoginRequiredMixin, View):
         return redirect('blog:list', pk=pk)
     
     def post(self, request, pk):
+        
         post = Post.objects.get(pk=pk)
-        # title = request.POST['title']
+        category = Category.objects.get(post=post)
+        
         post.title = request.POST['title']
         post.content = request.POST['content']
-        post.category = request.POST['category']
+        category.name = request.POST['category']
         thumbnail = request.POST['thumbnail']
         
         if thumbnail != "blank":
             post.thumbnail = thumbnail
-        
+            
         post.save()
+        category.save()
         # serializer = PostSerializer(post)
         data = {
             'message': '수정이 완료되었습니다.'
@@ -110,7 +114,7 @@ class LoadPost(View):
         data = {
             'title': post.title,
             'content': post.content,
-            'category': post.category,
+            'category': post.category.name,
             'thumbnail': str(post.thumbnail)
         }
         return JsonResponse(data)
@@ -152,6 +156,19 @@ class Search(View):
         }
         return render(request, 'blog/post_search.html', context)
     
+
+class CategorySearch(View):
+    def get(self, request):
+        # post_objs = Post.objects.all().filter(status='active').order_by('-created_at')
+        # hashtags = HashTag.objects.select_related('writer').filter(post=post)
+        posts_s =  Post.objects.select_related('category').filter(name=request.GET['category'])
+        categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
+        context = {
+            "posts": posts_s,
+            "categories": categories,
+            "keyword": request.GET['keyword']
+        }
+        return render(request, 'blog/post_search.html', context)
     
 ### Comment
 class CommentWrite(LoginRequiredMixin, View):
