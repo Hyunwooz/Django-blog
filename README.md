@@ -34,7 +34,7 @@
 ## 3. 프로젝트 구조와 개발 일정
 
 ### 3.1 Entity Relationship Diagram
-![erd](https://github.com/Hyunwooz/Django-blog/assets/107661525/fd25b9a7-88e5-44f6-8553-b24f21e7b7f1)
+![erd](https://github.com/Hyunwooz/Django-blog/assets/107661525/f554ac1a-47d8-4525-9d5f-316d7e05c914)
 
 ### 3.2 프로젝트 구조
 ```
