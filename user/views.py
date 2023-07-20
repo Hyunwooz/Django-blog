@@ -31,6 +31,7 @@ class Join(View):
             'form': form
         }
         return render(request, 'user/user_join.html', context)
+
 ### Login
 class Login(View):
     def get(self, request):
@@ -63,15 +64,15 @@ class Login(View):
         }
         
         return render(request, 'user/user_login.html', context)
-    
-    
+
+
 ### Logout
 class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('blog:list')
-        
-        
+
+
 class ChangePassWord(View):
     def get(self, request):
         form = PasswordChangeForm(request.user, request.POST)

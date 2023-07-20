@@ -51,6 +51,7 @@ class Write(LoginRequiredMixin, View):
         }
         return JsonResponse(data)
 
+
 class Detail(View):
     def get(self, request, pk):
         try:
@@ -74,7 +75,7 @@ class Detail(View):
                 return render(request,'blog/post_view.html', context)
         
             return render(request,'blog/error.html')
-    
+
 
 class Update(LoginRequiredMixin, View):
     Mixin : LoginRequiredMixin
@@ -94,8 +95,8 @@ class Update(LoginRequiredMixin, View):
         
         post.title = request.POST['title']
         post.content = request.POST['content']
-        category.name = request.POST['category']
         thumbnail = request.POST['thumbnail']
+        category.name = request.POST['category']
         
         if thumbnail != "blank":
             post.thumbnail = thumbnail
@@ -161,6 +162,7 @@ class Search(View):
 class CategorySearch(View):
     def get(self, request):
         
+        # print(results.query) SQL 쿼리문을 볼 수 있다.
         results = Category.objects.select_related().filter(name=request.GET['category'])
         categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
@@ -169,7 +171,7 @@ class CategorySearch(View):
             "keyword": request.GET['category']
         }
         return render(request, 'blog/post_category.html', context)
-    
+
 ### Comment
 class CommentWrite(LoginRequiredMixin, View):
     

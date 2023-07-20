@@ -1,48 +1,16 @@
 import { getCookie } from "./utils.js"
 import { editor } from "./editor.js";
 
-const Editor = toastui.Editor;
-const $title = document.querySelector('.post_title_input')
-const $category = document.querySelector('.post_category_input')
 const $save_btn = document.querySelector('.post_save');
 const $thumbnail_btn = document.querySelector('.post_thumbnail_input');
+const $title = document.querySelector('.post_title_input')
+const $category = document.querySelector('.post_category_input')
 
 const csrf_token = getCookie('csrftoken');
 
-let link =  document.location.href;
-let blog_idx = link.indexOf('edit');
-link = link.substring(blog_idx+4)
-
-const loadPostData = () => {
-
-    let post = {
-        "message": "Data plz",
-    }
-    
-    $.ajax({
-        type: 'POST',
-        url: '/blog/loadpost'+link,
-        data: post,
-        dataType: 'json',
-        timeout: 600000,
-        beforeSend : function(xhr){
-            xhr.setRequestHeader("X-CSRFToken",csrf_token);
-        },
-        success: function(data) {
-            $title.value = data.title
-            $category.value = data.category.name
-            editor.setHTML(data.content)
-        },
-        error: function(e) {
-            console.log(e)
-        }
-    });
-}
-
-let thumbnail ;
+let thumbnail = null;
 // 썸네일 이미지 저장
 const thumbnailFunc = () =>{
-    
     const formData = new FormData();
     formData.append('image', $thumbnail_btn.files[0]);
     
@@ -71,7 +39,7 @@ const thumbnailFunc = () =>{
 
 const postSave = (event) => {
     event.preventDefault()
-
+    
     let post = {
         "title": $title.value,
         "content": editor.getHTML(),
@@ -86,7 +54,7 @@ const postSave = (event) => {
 
     $.ajax({
         type: 'POST',
-        url: '/blog/edit'+link,
+        url: '/blog/write/',
         data: post,
         dataType: 'json',
         timeout: 600000,
@@ -94,16 +62,14 @@ const postSave = (event) => {
             xhr.setRequestHeader("X-CSRFToken",csrf_token);
         },
         success: function(data) {
-            alert(data.message)
-            location.href = '/blog'+link
+            alert('글이 저장되었습니다.')
+            location.href = '/blog/'
         },
         error: function(e) {
-            alert(e.toString())
+            alert(e)
         }
     });
 }
 
-// Post data들 불러오고 넣기
-loadPostData()
 $save_btn.addEventListener('click',postSave)
 $thumbnail_btn.addEventListener('change',thumbnailFunc)

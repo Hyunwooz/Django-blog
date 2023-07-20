@@ -1,14 +1,14 @@
+import { getCookie } from "./utils.js"
+
 const Editor = toastui.Editor;
 const $save_btn = document.querySelector('.post_save');
 const $thumbnail_btn = document.querySelector('.post_thumbnail_input');
-
-const getCookie = function(name){
-    const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return value? value[2] : null;
-}
+const $title = document.querySelector('.post_title_input')
+const $category = document.querySelector('.post_category_input')
 
 const csrf_token = getCookie('csrftoken');
-const editor = new Editor({
+
+export const editor = new Editor({
     el: document.querySelector('#editor'),
     height: '600px',
     initialEditType: 'markdown',
@@ -78,12 +78,11 @@ const thumbnailFunc = () =>{
 
 const postSave = (event) => {
     event.preventDefault()
-    const title = document.querySelector('.post_title_input').value
-    const category = document.querySelector('.post_category_input').value
+    
     let post = {
-        "title": title,
+        "title": $title.value,
         "content": editor.getHTML(),
-        "category": category,
+        "category": $category.value,
     }
 
     if (thumbnail != null) {

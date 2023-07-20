@@ -19,6 +19,7 @@ class Category(models.Model):
     post = models.OneToOneField("Post", on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
 
+
 class Comment(models.Model):
     
     post = models.ForeignKey(Post, on_delete=models.CASCADE) 
