@@ -128,11 +128,13 @@ class Delete(View):
         
         if post.writer != request.user:
             return redirect('blog:list')
+        category = Category.objects.get(post=post)
         
-        post = Post.objects.get(pk=pk)
         post.status = 'delete'
-        post.save()
+        category.status = 'delete'
         
+        category.save()
+        post.save()
         return redirect('blog:list')
 
 
@@ -157,13 +159,13 @@ class Search(View):
             "keyword": request.GET['keyword']
         }
         return render(request, 'blog/post_search.html', context)
-    
+
 
 class CategorySearch(View):
     def get(self, request):
         
         # print(results.query) SQL 쿼리문을 볼 수 있다.
-        results = Category.objects.select_related().filter(name=request.GET['category']).order_by('-created_at')
+        results = Category.objects.select_related().filter(name=request.GET['category'],status='active').order_by('-created_at')
         categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
             "results": results,

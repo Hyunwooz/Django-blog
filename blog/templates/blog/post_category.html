@@ -70,7 +70,6 @@
                 {% if results %}
                 <ul class="posts">
                     {% for result in results %}
-                    {% if result.post.status == 'active' %}
                     <li>
                         <a href="{% url 'blog:detail' pk=result.post.pk %}" class="post">
                             <article>
@@ -107,11 +106,10 @@
                             </article>
                         </a>
                     </li>
-                    {% endif %}
                     {% endfor %}
                 </ul>
                 {% else %}
-                    {% comment %} <p class="nonexistent">작성된 게시물이 없습니다.</p> {% endcomment %}
+                    <p class="nonexistent">작성된 게시물이 없습니다.</p>
                 {% endif %}
             </section>
             <!-- //posts -->

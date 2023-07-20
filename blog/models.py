@@ -17,8 +17,9 @@ class Post(models.Model):
 
 class Category(models.Model):
     post = models.OneToOneField("Post", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(default='active', max_length=20)
 
 
 class Comment(models.Model):
