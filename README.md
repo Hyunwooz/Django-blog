@@ -12,7 +12,7 @@
 
 -   회원가입 및 로그인
 -   비밀번호 변경
--   Profile CRD
+-   Profile CRU
 -   게시글 CRUD ( Toast UI Editor )
 -   게시글 조회수 표시
 -   댓글 CRD
