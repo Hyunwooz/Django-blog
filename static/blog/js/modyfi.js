@@ -30,7 +30,7 @@ const loadPostData = () => {
         },
         success: function(data) {
             $title.value = data.title
-            $category.value = data.category.name
+            $category.value = data.category
             editor.setHTML(data.content)
         },
         error: function(e) {
