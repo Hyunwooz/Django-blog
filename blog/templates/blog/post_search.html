@@ -11,8 +11,8 @@
                 <h3>😁 Profile</h3>
                 {% if request.user.is_authenticated %}
                     <aside class="about">
-                        {% if request.user.profile.avatarUrl.url %}
-                            <img src="{{request.user.profile.avatarUrl}}" alt="" class="user-profile" />
+                        {% if request.user.profile.avatarUrl %}
+                            <img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
                         {% else %}
                             <img src="{%static 'user/image/basic_profile.jpg'%}" alt="" class="user-profile" />
                         {% endif %}
