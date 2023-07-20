@@ -166,6 +166,9 @@ class CategorySearch(View):
         
         # print(results.query) SQL 쿼리문을 볼 수 있다.
         results = Category.objects.select_related().filter(name=request.GET['category'],status='active').order_by('-created_at')
+        
+        print(dir(results))    
+    
         categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
             "results": results,
