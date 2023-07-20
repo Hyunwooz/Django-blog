@@ -103,12 +103,20 @@ Django-blog
 ![게시물디테일](https://github.com/Hyunwooz/Django-blog/assets/107661525/6fc6274c-d64a-45a9-8949-36e47a3650b9)
 
 ## 5. 기능
-
+-   회원가입 및 로그인
+![login-join](https://github.com/Hyunwooz/Django-blog/assets/107661525/9782cb48-7ffa-4fd9-8607-ac73abe04b0d)
+-   프로필
+![pf](https://github.com/Hyunwooz/Django-blog/assets/107661525/85ae538f-976e-4831-ae3a-5a48be7f8998)
 -   게시물 작성
 ![Write-min](https://github.com/Hyunwooz/Django-blog/assets/107661525/cee8c6c7-d54d-4682-b9ce-2adc3b999871)
 -   게시물 수정
 ![edit](https://github.com/Hyunwooz/Django-blog/assets/107661525/92bad933-0fbf-4115-94b5-603b3b1494af)
-
+-   댓글
+![comment-min](https://github.com/Hyunwooz/Django-blog/assets/107661525/bb12072c-e58f-4ad4-8787-7bf153321d1c)
+-   제목 검색
+![sec-tt](https://github.com/Hyunwooz/Django-blog/assets/107661525/1262ce35-af60-476a-91ec-1e9a6b63595a)
+-   카테고리 검색
+![sec-ct](https://github.com/Hyunwooz/Django-blog/assets/107661525/07f160d0-cb87-48e9-a295-29b10c23a93d)
 ## 6. 개발과정과 느낀점
 ### Toast Ui Editor를 입히기 위한 과정
 #### 어쩌다 만들어진 Client와 server의 비동기 통신 과정
