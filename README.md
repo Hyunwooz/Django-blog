@@ -26,10 +26,21 @@
 -   Python == 3.10.4
 -   Django == 4.2.3
 -   Pillow == 9.5.0
+### 2.2 배포 환경
+-   Aws Lightsail
+-   Gunicorn
+-   Nginx
+```
+처음에는 runserver로 서버를 실행시켰지만 이럴 경우 보안상 문제가 발생할 여지가 있다하여 Nginx와 Gunicorn을 연동하여 배포하였다.
 
+참고사이트
+1) https://twowix.me/85  # Runserver로 서버를 돌리면 안되는 이유
+2) https://docs.djangoproject.com/en/3.2/ref/django-admin/#runserver # Django Docs
+3) https://leffept.tistory.com/282 # Django를 Nginx와 Guicorn 연동하여 배포하기
+```
 ### 2.2 배포 URL
 
--   준비중
+-   http://52.78.152.106:8000/blog/
 
 ## 3. 프로젝트 구조와 개발 일정
 
