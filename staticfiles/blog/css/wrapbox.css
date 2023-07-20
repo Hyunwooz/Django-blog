@@ -19,14 +19,14 @@
 	font-size: 1.6rem;
 }
 
-.wrap-box h2 {
+.wrap-box h2:not(.view-contents h2) {
 	margin-bottom: 4.8rem;
 	font-size: 3.2rem;
 	font-weight: bold;
 	text-transform: uppercase;
 }
 
-.wrap-box h3:not(.comment_title) {
+.wrap-box h3:not(.comment_title, .view-contents h3) {
 	margin-bottom: 4.8rem;
 	font-size: 2rem;
 	font-weight: bold;

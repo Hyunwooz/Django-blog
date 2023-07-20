@@ -92,8 +92,8 @@ class ChangePassWord(View):
             'form': form
         }
         return render(request,'user/user_change_pw.html',context)
-    
-    
+
+
 ### Profile
 class Profile(View):
     def get(self, request):

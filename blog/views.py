@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse 
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Subquery
 from .models import Post, Comment, ImageUpload, Category
 from .forms import PostForm, CommentForm
 

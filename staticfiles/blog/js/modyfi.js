@@ -1,6 +1,7 @@
 import { getCookie } from "./utils.js"
 import { editor } from "./editor.js";
 
+const Editor = toastui.Editor;
 const $title = document.querySelector('.post_title_input')
 const $category = document.querySelector('.post_category_input')
 const $save_btn = document.querySelector('.post_save');
@@ -29,7 +30,7 @@ const loadPostData = () => {
         },
         success: function(data) {
             $title.value = data.title
-            $category.value = data.category.name
+            $category.value = data.category
             editor.setHTML(data.content)
         },
         error: function(e) {
