@@ -115,11 +115,11 @@ class Profile(View):
         aboutMe = request.POST['aboutMe']
         
         try:
-            avatarUrl = request.POST['avatarUrl']
+            avatarUrl = request.FILES['avatarUrl']
         except:
-            profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name, aboutMe=aboutMe)
-        else:
             profile = Profiles.objects.create(user=user, name=name, aboutMe=aboutMe)
+        else:
+            profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name, aboutMe=aboutMe)
 
         user.is_profile = True
         user.save()

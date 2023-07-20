@@ -163,7 +163,7 @@ class CategorySearch(View):
     def get(self, request):
         
         # print(results.query) SQL 쿼리문을 볼 수 있다.
-        results = Category.objects.select_related().filter(name=request.GET['category'])
+        results = Category.objects.select_related().filter(name=request.GET['category']).order_by('-created_at')
         categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
         context = {
             "results": results,
