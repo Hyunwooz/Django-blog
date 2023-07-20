@@ -96,6 +96,11 @@ Django-blog
 ## 4. 전체 페이지
 
 -   전체 페이지 UI
+![로그인회원가입](https://github.com/Hyunwooz/Django-blog/assets/107661525/83616293-3d40-4fed-9184-3e719be31aab)
+![메인](https://github.com/Hyunwooz/Django-blog/assets/107661525/4aaab86a-d4b2-4b19-a255-158ab2de8bd3)
+![프로필 비밀번호](https://github.com/Hyunwooz/Django-blog/assets/107661525/8c82b80a-9766-4275-9c1f-b04b31440910)
+![서치](https://github.com/Hyunwooz/Django-blog/assets/107661525/b6a9850a-5d88-4fca-b355-24617658eb9a)
+![게시물디테일](https://github.com/Hyunwooz/Django-blog/assets/107661525/6fc6274c-d64a-45a9-8949-36e47a3650b9)
 
 ## 5. 기능
 
