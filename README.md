@@ -290,8 +290,8 @@ WantedBy=multi-user.target
 여기까지가 설정 파일은 작성은 끝입니다.
 
 ```
-sudo systemctl start uwsgi # 서비스 시장
-sudo systemctl enable uwsgi # SSH를 껏다 키더라도 자동 실행 되게 함
+sudo systemctl start uwsgi # 서비스 시작
+sudo systemctl enable uwsgi # SSH를 껐다 키더라도 자동 실행 되게 함
 ```
 2가지 리눅스 명령어를 통해 서비스 실행 및 등록을 진행하였습니다.
 
