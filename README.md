@@ -170,10 +170,7 @@ export const editor = new Editor({
                 url: '/blog/imageupload/',
                 data: formData,
                 dataType: 'json',
-                processData: false,
-                contentType: false,
-                cache: false,
-                timeout: 600000,
+                ... 생략 ...,
                 beforeSend : function(xhr){
                     xhr.setRequestHeader("X-CSRFToken",csrf_token);
                 },
