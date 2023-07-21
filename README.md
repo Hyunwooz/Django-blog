@@ -26,25 +26,24 @@
 -   Python == 3.10.4
 -   Django == 4.2.3
 -   Pillow == 9.5.0
-### 2.2 배포 환경
--   Aws Lightsail
--   Gunicorn
--   Nginx
-```
-처음에는 runserver로 서버를 실행시켰지만 이럴 경우 보안상 문제가 발생할 여지가 있다하여 Nginx와 Gunicorn을 연동하여 배포하였다.
 
-참고사이트
-1) https://twowix.me/85  # Runserver로 서버를 돌리면 안되는 이유
-2) https://docs.djangoproject.com/en/3.2/ref/django-admin/#runserver # Django Docs
-3) https://leffept.tistory.com/282 # Django를 Nginx와 Guicorn 연동하여 배포하기
-```
+### 2.2 배포 환경
+
+-   Aws Lightsail
+-   ~~Gunicorn~~
+-   Nginx
+-   uwsgi
+
 ### 2.2 배포 URL
 
--   http://52.78.152.106:8000/blog/ (배포중단)
+-   ~~http://52.78.152.106:8000/blog/ (배포중단)~~
+-   http://kanghyunwoo.com/blog/
 
-```
-! 현재 개인 도메인 연결로 인해 잠시 배포를 중단하였습니다.
-```
+
+~~! 현재 개인 도메인 연결로 인해 잠시 배포를 중단하였습니다.~~
+
+현재는 개인 도메인을 연결하고 배포까지 완료되었습니다.
+
 
 ## 3. 프로젝트 구조와 개발 일정
 
@@ -133,6 +132,222 @@ Django-blog
 -   카테고리 검색
 ![sec-ct](https://github.com/Hyunwooz/Django-blog/assets/107661525/07f160d0-cb87-48e9-a295-29b10c23a93d)
 ## 6. 개발과정과 느낀점
+### Aws Lightsail을 이용하여 서버 배포
+
+처음에는 runserver를 이용하여 백그라운드에서 서버를 실행 하여 SSH를 끄더라도 서버가 돌아가게끔 설정했습니다.
+
+그 후 Django_Secret_Key를 .bashrc 파일에 환경변수를 추가하여 설정했습니다.
+
+다만 매번 .bashrc를 실행시켜줘야 하는 번거로움이 있어 , .bash_profile을 생성하여
+
+SSH로 접속할 때 마다 .bashrc를 실행할 수 있도록 설정하였습니다.
+
+그후 runserver로 서버를 구동할 경우 보안상 문제가 발생할 여지가 있다하여 Nginx와 Gunicorn을 연동하여 배포하게되었습니다.
+
+1.  https://twowix.me/85  # Runserver로 서버를 돌리면 안되는 이유
+2.  https://docs.djangoproject.com/en/3.2/ref/django-admin/#runserver # Django Docs
+3.  https://leffept.tistory.com/282 # Django를 Nginx와 Guicorn 연동하여 배포하기
+
+위의 블로그를 참고하여 배포과정을 진행하였고, 많은 문제들을 만나게되었습니다. 하지만
+대부분의 문제는 gunicorn nginx 등 여러 설정 파일을 잘못 기입 했을 경우 발생하였습니다.
+
+여기서 gunicorn과 nginx를 연동하여 서버를 배포하게 될 경우 runserver로 서버를 구동했을 당시에 설정해뒀었던 환경변수는 사용하지 못하게 됩니다.
+
+아직까진 gunicorn으로 환경변수를 다루는 법을 몰라 Django에 ProjectApp의 Setting.py를 원상복귀 하게되었습니다.
+
+개인 도메인을 사용하고 싶어 구매를 한 후 AWS Lightsail에서 도메인 및 DNS 설정을 변경하고 도메인 구매처에서 네임서버 또한 변경을 완료하였습니다.
+
+단순히 nginx에서 server name만 내가 구매하고 설정한 도메인으로 바꿔주면 되는 줄 알았지만 아니였습니다.
+
+- nginx에서 502 Bad Gateway
+    - 아직 정확한 원인파익은 되진않았지만 gunicorn이 제대로 작동하지 않아서 발생한 문제로 파악됩니다. nginx에서 gunicorn으로 요청을 전달해주는 reverse proxy에서 발생한 걸로 추측됩니다.
+- 111: Connection Refused
+    - 너무나 다양한 오류가 많았으며 결과적으로 여러 설정파일에서 문제가 복합적으로 존재하여 발생한 에러입니다.
+- 13: Permission Failed
+    - gunicorn.socket을 실행시키는데 권한이 없어 발생한 문제입니다. chmod로 권한을 변경하여 해결하였지만 , 보안상 문제가 있다는 정보들이 많았습니다. 권한을 늘려버리면 누군가 해당 파일을 수정시켜버릴 수 있기때문입니다.
+- gunicorn ModuleNotFoundError: No module named 'config'
+    - 단순히 설정 파일에서 config 대신 wsgi.py파일이 있는 폴더 이름을 적어주면 해결되는 문제였습니다. 
+- gunicorn.socket could not be found. 
+    - 소켓 위치를 찾을 수 없어서 생겼던 오류 > 생성을 하지 않았기에 당연히 존재하지 않았습니다.
+- gunicorn /tmp/gunicorn.socket failed 
+    - 소켓을 실행시켰지만 실패함. 제 gunicorn.sokect이 해당 경로에 존재하지 않았습니다.
+
+등등 너무나도 많은 오류들을 만나다보니 gunicorn으로 더이상 진행하지 않고 uwsgi로 변경하여 배포하기로 결정하였습니다. (중간에 다양한 오류들을 처리하다보니 설정파일 자체가 꼬여버렸기 때문에)
+
+다만 위에서 여러 시도와 검색을 통해 배우게된 사실은
+
+Proxy
+- 정보를 대신 전달해주는 주체입니다.
+
+Reverse Proxy
+- 클라이언트의 요청을 대신 받아 내부 서버로 전달해주는 것을 말합니다. = nginx가 그 역할을 하고있습니다.
+
+Reverse Proxy를 이용하는 장점
+- 로드 밸런싱 : 클라이언트의 요청을 프록시 서버에 분산하여 성능, 확장성을 향상시킬 수 있습니다.
+- 캐싱 : Reverse Proxy를 사용하실 경우 렌더링된 페이지를 미리 캐싱하여 페이지 로드시간을 단축할 수 있습니다.
+- DDoS : 수신 요청과 단일 IP 주소당 연결 수를 제한할 수 있어서 DDoS를 방지할 수 있습니다.
+
+이 외에도 여러가지 장점이 존재한다는 걸 알수 있었습니다. 다음으로
+
+Unix socket과 Network socket의 차이입니다.
+
+- Network socket
+    - 네트워크 상에서 처리되는 커뮤니케이션
+    - TCP/UDP 프로토콜을 사용한 통신
+
+- Unix socket
+    - Unix Domain Socket.
+    - IPC(Inter process communication) Socket
+    - 내부의 프로세스들끼리 통신만을 위한 양방향 통신 소켓.
+
+리눅스에서 Unix socket을 사용하는 이유는 시스템상의 프로그램에서 프로세스 간 로컬 통신이 필요할 경우 Network socket보다 속도나 효율성 면에서 유리한 이점을 가져올 수 있기 때문입니다.
+
+> 참고블로그 : https://rura6502.tistory.com/entry/Unix-Socket-vs-TCP-Socket
+
+uwsgi와 nginx를 연동하기 위해서 "Django 자습" 이라는 사이트의 내용을 참고하여 진행하였습니다.
+
+> 참고사이트 : https://wikidocs.net/6611
+
+위의 사이트를 그대로 진행한다 하더라도 제대로 작동이 되진않습니다. 설정 파일을 본인의 환경에 맞게 설정하셔야 합니다.
+
+제가 어떠한 실수를 하였고 , 어떤식으로 진행하였는지 알려드리겠습니다.
+
+`$ git clone {각자의 github 주소}`
+
+git을 가져와 주시고 , 장고 폴더내에서 가상환경을 세팅해줍니다.
+
+`(venv) $ pip install uwsgi`
+
+설치를 진행 하고 
+
+/home/{사용자이름}/{장고 프로젝트 폴더}/run/ 에 uwsgi.ini 파일을 만들어주었습니다.
+
+여기서 많은 실수가 있었습니다.
+
+제가 별표* 를 친 곳이 제가 계속 놓쳤던 부분입니다. 
+
+```
+[uwsgi]
+uid = {사용자이름}
+base = /home/%(uid)/{장고 프로젝트 폴더}
+
+home = %(base)/venv
+chdir = %(base)/
+*module = {장고 폴더내 wsgi.py파일이 있는 폴더 이름 }.wsgi:application
+*env = DJANGO_SETTINGS_MODULE=conf.settings
+
+master = true
+processes = 5
+
+socket = %(base)/run/uwsgi.sock
+chown-socket = %(uid):www-data
+chmod-socket = 660
+vacuum = true
+```
+```
+Django
+  -App
+    - wsgi.py
+  -Blog
+  -User
+```
+module의 경우 예를들어 위의 폴더트리가 존재한다고 가정한다면 
+
+`module = App.wsgi:application`
+
+이렇게 작성해야 됐습니다.
+
+위의 코드를 보면 위에서 말씀드렸던
+
+- gunicorn ModuleNotFoundError: No module named 'config' 
+
+해당 오류는 쉽게 해결할 수 있다는 생각이 드네요.
+
+다음 과정으로는 
+
+/etc/systemd/system/ 에 uwsgi.service 파일을 만들어야 합니다.
+제가 별표* 를 친 곳이 제가 계속 놓쳤던 부분입니다. 
+
+```
+[Unit]
+Description=uWSGI Emperor service
+
+[Service]
+*ExecStart=/home/{사용자이름}/{장고 프로젝트 폴더}/venv/bin/uwsgi \
+        *--emperor /home/{사용자이름}/{장고 프로젝트 폴더}/run # 이는 아까 만드셨던 uwsgi.ini 파일의 경로입니다.
+*User={사용자이름}
+Group=www-data
+Restart=on-failure
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
+```
+
+여기까지가 설정 파일은 작성은 끝입니다.
+
+```
+sudo systemctl start uwsgi # 서비스 시장
+sudo systemctl enable uwsgi # SSH를 껏다 키더라도 자동 실행 되게 함
+```
+2가지 리눅스 명령어를 통해 서비스 실행 및 등록을 진행하였습니다.
+
+```
+systemctl status uwsgi
+```
+
+위의 명령어를 통해 uwsgi의 상태를 확인할 수 있으며 , /var/log/ 경로에 syslog 파일을 확인하시면 다양한 에러 로그를 확인할 수 있습니다.
+
+그 후 nginx를 설치 하고 uwsgi와 연동하여 배포를 하는데 성공하였습니다.
+
+아래는 nginx와 uwsgi를 연동하는 nginx 설정입니다.
+
+여기서도 제가 실수했던 부분에 숫자를 표시하여 설명드리겠습니다.
+
+```
+#1 upstream withthai-django {
+    server unix:/home/{사용자이름}/{장고 프로젝트 폴더}/run/uwsgi.sock;
+}
+
+server {
+        listen 80;
+        server_name {개인 도메인 or 고정 IP};
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+
+        location /static/ {
+                root /home/{사용자이름}/{장고 프로젝트 폴더}/; # static파일이 있는 경로를 적어주시면 됩니다.
+        }
+
+        location / {
+            include         /etc/nginx/uwsgi_params;
+            #3 uwsgi_pass      django;
+        }
+}
+```
+
+#1 `*upstream withthai-django` 해당 부분과 #3 `uwsgi_pass      django;`여기서
+withthai-django과 django 이 부분은 아래처럼 일치해야합니다.
+
+```
+#1 upstream 변수명 {
+    server unix:/home/foo/django_test/run/uwsgi.sock;
+}
+
+server {
+        ... 생략 ...
+        location / {
+            include         /etc/nginx/uwsgi_params;
+            #3 uwsgi_pass      변수명;
+        }
+}
+```
+
+장황하게 설명을 하였지만 , 결국 오타와 잘못된 정보 기입의 문제였습니다. 다음에는 좀 더 원활하게 배포할 수 있도록 더욱 공부하도록 하겠습니다. 
+
 ### Toast Ui Editor를 입히기 위한 과정
 #### 어쩌다 만들어진 Client와 server의 비동기 통신 과정
 
