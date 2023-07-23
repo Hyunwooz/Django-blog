@@ -254,8 +254,11 @@ Django
 ```
 module과 env의 경우 예를들어 위의 폴더트리가 존재한다고 가정한다면 
 
-`module = App.wsgi:application`
-`env = DJANGO_SETTINGS_MODULE={장고 폴더내 settings.py파일이 있는 폴더 이름 }.settings`
+```
+module = App.wsgi:application
+env = DJANGO_SETTINGS_MODULE=App.settings
+```
+
 이렇게 작성해야 됐습니다.
 
 위의 코드를 보면 위에서 말씀드렸던
