@@ -150,10 +150,14 @@ class Likepost(View):
                     post.like[like_user] = 'Disabled'
                 else:
                     post.like[like_user] = 'like'
-        post.save()
+            post.save()
+            data = {
+                'message': 'success'
+            }
+            return JsonResponse(data)
         data = {
-            'message': 'success'
-        }
+                'message': 'Login Please'
+            }
         return JsonResponse(data)
 
 
