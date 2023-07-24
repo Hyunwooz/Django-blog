@@ -1,0 +1,53 @@
+
+.change-pw {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10rem;
+	padding-bottom: 7rem;
+	width: 50rem;
+}
+
+.change-pw h2 {
+	font-size: 4.5rem;
+	font-weight: bold;
+	margin-bottom: 5rem;
+	color:  rgb(102, 162, 253);;
+}
+
+
+.change-pw p {
+	display: flex;
+	flex-direction: column;
+	font-weight: bold;
+}
+
+.change-pw label {
+	display: none;
+}
+.change-pw input{
+	width: 35rem;
+	height: 5rem;
+	border: none;
+	padding: 0.5rem 1.8rem 0.5rem 1.8rem;
+	margin-top: 1rem;
+}
+
+.change-pw input:not(.change-btn){
+	background-color: rgb(230, 230, 230);
+
+}
+
+.change-btn {
+	font-weight: bold;
+	margin-top: 2rem;
+	background: rgb(102, 162, 253);
+	color: white;
+}
+
+.errorlist {
+	font-weight: bold;
+}
