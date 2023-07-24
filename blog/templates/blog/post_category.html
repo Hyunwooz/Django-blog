@@ -118,11 +118,16 @@
                 <h3>🎫 Category</h3>
                     <aside class="about">
                         <ul class="categories">
+                            <li>
+                                <form action="{% url 'blog:list' %}" method="get">
+                                    <button class='category_search' type='submit'>All</button>
+                                </form>
+                            </li>
                             {% for category in categories %}
                             <li>
                                 <form action="{% url 'blog:category' %}" method="get">
-                                    <input type="hidden", value="{{category}}", name="category">
-                                    <button class='category_search' type='submit'>{{category}}</button>
+                                    <input type="hidden", value="{{category.category}}", name="category">
+                                    <button class='category_search' type='submit'>{{category.category}} ({{category.count}})</button>
                                 </form>
                             </li>
                             {% endfor %}

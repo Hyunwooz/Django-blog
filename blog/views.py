@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse 
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, F
 from .models import Post, Comment, ImageUpload, Category
 from .forms import PostForm, CommentForm
 
@@ -9,10 +10,10 @@ from .forms import PostForm, CommentForm
 class Index(View):
     def get(self, request):
         post_objs = Post.objects.all().filter(status='active').order_by('-created_at')
-        categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
+        categories = Category.objects.filter(status='active').values('name').annotate(count=Count('name'),category=F('name')).values('count', 'category')
         context = {
             "posts": post_objs,
-            "categories": categories
+            "categories": categories,
         }
         return render(request, 'blog/post_list.html', context)
 
@@ -56,7 +57,7 @@ class Detail(View):
         try:
             post = Post.objects.get(pk=pk)
         except:
-            return render(request,'blog/error.html')
+            return render(request,'blog/nonexistent.html')
         else:
             if post.status == 'active':
                 post.views = post.views + 1
@@ -73,7 +74,7 @@ class Detail(View):
             
                 return render(request,'blog/post_view.html', context)
         
-            return render(request,'blog/error.html')
+            return render(request,'blog/nonexistent.html')
 
 
 class Update(LoginRequiredMixin, View):
@@ -151,7 +152,7 @@ class ImgUpload(View):
 class Search(View):
     def get(self, request):
         post_objs = Post.objects.filter(status='active',title__contains=request.GET['keyword']).order_by('-created_at')
-        categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
+        categories = Category.objects.filter(status='active').values('name').annotate(count=Count('name'),category=F('name')).values('count', 'category')
         context = {
             "posts": post_objs,
             "categories": categories,
@@ -165,7 +166,7 @@ class CategorySearch(View):
         
         # print(results.query) SQL 쿼리문을 볼 수 있다.
         results = Category.objects.select_related().filter(name=request.GET['category'],status='active').order_by('-created_at')
-        categories = ['Life','Style','Tech','Sport','Photo','Develop','Music']
+        categories = Category.objects.filter(status='active').values('name').annotate(count=Count('name'),category=F('name')).values('count', 'category')
         context = {
             "results": results,
             "categories": categories,
@@ -175,6 +176,9 @@ class CategorySearch(View):
 
 ### Comment
 class CommentWrite(LoginRequiredMixin, View):
+    Mixin : LoginRequiredMixin
+    login_url = '/user/login'
+    redirect_field_name = 'next'
     
     def post(self, request, pk):
         form = CommentForm(request.POST)
