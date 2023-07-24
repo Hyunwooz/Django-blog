@@ -67,7 +67,7 @@
 						</a>
 					</li>
 					<li class="profile-img">
-						<a href="{%url 'user:pf-create' %}">
+						<a href="{%url 'user:pf-edit' %}">
 							{% if request.user.profile.avatarUrl %}
 								<img src="{{request.user.profile.avatarUrl.url}}" alt="" class="user-profile" />
 							{% else %}

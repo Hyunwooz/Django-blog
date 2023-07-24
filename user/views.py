@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model
 from .forms import JoinForm, LoginForm, ProfileForm
-from .models import Profile as Profiles
+from .models import Profile as ProfileModel
 
 User = get_user_model()
 
@@ -23,7 +23,8 @@ class Join(View):
     def post(self, request):
         form = JoinForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            profile = ProfileModel.objects.create(user=user)
             return redirect('user:login')
 
         form.add_error(None,'양식을 확인해주세요.')
@@ -94,42 +95,9 @@ class ChangePassWord(View):
         return render(request,'user/user_change_pw.html',context)
 
 
-### Profile
-class Profile(View):
-    def get(self, request):
-
-        if request.user.is_profile:
-            return redirect('user:pf-edit')
-        
-        form = ProfileForm()
-        context = {
-            'form': form,
-            'type': 'create'
-        }
-        return render(request, 'user/user_profile.html', context)
-        
-    def post(self, request):
-        
-        user = User.objects.get(pk=request.user.pk)
-        name = request.POST['name']
-        aboutMe = request.POST['aboutMe']
-        
-        try:
-            avatarUrl = request.FILES['avatarUrl']
-        except:
-            profile = Profiles.objects.create(user=user, name=name, aboutMe=aboutMe)
-        else:
-            profile = Profiles.objects.create(user=user, avatarUrl=avatarUrl, name=name, aboutMe=aboutMe)
-
-        user.is_profile = True
-        user.save()
-        
-        return redirect('blog:list')
-    
-
 class ProfileUpdate(View):
     def get(self, request):
-        profile = Profiles.objects.get(user=request.user.pk)
+        profile = ProfileModel.objects.get(user=request.user.pk)
         form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name , 'aboutMe': profile.aboutMe})
         context = {
             'form': form,
@@ -140,7 +108,7 @@ class ProfileUpdate(View):
     def post(self, request):
         
         user = User.objects.get(pk=request.user.pk)
-        profile = Profiles.objects.get(user=user)
+        profile = ProfileModel.objects.get(user=user)
         name = request.POST['name']
         aboutMe = request.POST['aboutMe']
         
