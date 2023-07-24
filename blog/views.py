@@ -61,6 +61,10 @@ class Detail(View):
         else:
             if post.status == 'active':
                 post.views = post.views + 1
+                if request.user.is_authenticated:
+                    list_user = str(request.user.email)
+                    post.like[list_user] = 'like'
+                    
                 post.save()
                 
                 comments = Comment.objects.filter(post=post,status='active')

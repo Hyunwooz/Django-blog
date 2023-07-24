@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %}
+{% load getValue %}
 
 {% block content %}
 	<div class="view">
@@ -10,6 +11,9 @@
 						<div class="img-wrap" style="background-image: url({{ post.thumbnail }}); background-size: cover; background-position: center;">
 						</div>
 					{% endif %}
+					{% with like_user=request.user.email %}
+						<p>{{post.like|get_item:like_user}}</p>
+					{% endwith %}
 					<div class="title-wrap">
 						<h2>{{ post.title }}</h2>
 					</div>

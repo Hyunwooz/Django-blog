@@ -11,6 +11,7 @@ class Post(models.Model):
     status = models.CharField(default='active', max_length=20)
     thumbnail = models.ImageField(upload_to='blog/media',null=True,blank=True)
     views = models.IntegerField(default=0)
+    like = models.JSONField(default='{}',null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
