@@ -4,6 +4,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import JoinForm, LoginForm, ProfileForm
 from .models import Profile as ProfileModel
 
@@ -95,7 +96,11 @@ class ChangePassWord(View):
         return render(request,'user/user_change_pw.html',context)
 
 
-class ProfileUpdate(View):
+class ProfileUpdate(LoginRequiredMixin,View):
+    Mixin : LoginRequiredMixin
+    login_url = '/user/login'
+    redirect_field_name = 'next'
+    
     def get(self, request):
         profile = ProfileModel.objects.get(user=request.user.pk)
         form = ProfileForm(initial={'avatarUrl': profile.avatarUrl, 'name': profile.name , 'aboutMe': profile.aboutMe})
