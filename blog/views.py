@@ -57,7 +57,7 @@ class Detail(View):
         try:
             post = Post.objects.get(pk=pk)
         except:
-            return render(request,'blog/error.html')
+            return render(request,'blog/nonexistent.html')
         else:
             if post.status == 'active':
                 post.views = post.views + 1
@@ -74,7 +74,7 @@ class Detail(View):
             
                 return render(request,'blog/post_view.html', context)
         
-            return render(request,'blog/error.html')
+            return render(request,'blog/nonexistent.html')
 
 
 class Update(LoginRequiredMixin, View):
@@ -176,6 +176,9 @@ class CategorySearch(View):
 
 ### Comment
 class CommentWrite(LoginRequiredMixin, View):
+    Mixin : LoginRequiredMixin
+    login_url = '/user/login'
+    redirect_field_name = 'next'
     
     def post(self, request, pk):
         form = CommentForm(request.POST)
