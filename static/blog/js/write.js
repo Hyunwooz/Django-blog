@@ -5,12 +5,18 @@ const $save_btn = document.querySelector('.post_save');
 const $thumbnail_btn = document.querySelector('.post_thumbnail_input');
 const $title = document.querySelector('.post_title_input')
 const $category = document.querySelector('.post_category_input')
-
 const csrf_token = getCookie('csrftoken');
+
+
+
+
 
 let thumbnail = null;
 // 썸네일 이미지 저장
-const thumbnailFunc = () =>{
+const thumbnailFunc = (event) =>{
+
+    previewImage(event)
+
     const formData = new FormData();
     formData.append('image', $thumbnail_btn.files[0]);
     
@@ -71,5 +77,16 @@ const postSave = (event) => {
     });
 }
 
+const previewImage = (event) => {
+    let reader = new FileReader();
+    const $img_div = document.querySelector('.thumbnail_preview')
+    $img_div.style.height = '30rem'
+    reader.onload = function (event) {
+        let img = $img_div.querySelector("img");
+        img.setAttribute("src", event.target.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+};
+
 $save_btn.addEventListener('click',postSave)
-$thumbnail_btn.addEventListener('change',thumbnailFunc)
+$thumbnail_btn.addEventListener('change', thumbnailFunc)

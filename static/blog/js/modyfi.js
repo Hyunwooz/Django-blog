@@ -5,6 +5,7 @@ const Editor = toastui.Editor;
 const $title = document.querySelector('.post_title_input')
 const $category = document.querySelector('.post_category_input')
 const $save_btn = document.querySelector('.post_save');
+const $img_div = document.querySelector('.thumbnail_preview')
 const $thumbnail_btn = document.querySelector('.post_thumbnail_input');
 
 const csrf_token = getCookie('csrftoken');
@@ -32,6 +33,11 @@ const loadPostData = () => {
             $title.value = data.title
             $category.value = data.category
             editor.setHTML(data.content)
+            if (data.thumbnail) {
+                $img_div.style.height = '30rem'
+                let img = $img_div.querySelector("img");
+                img.setAttribute("src", data.thumbnail);
+            }
         },
         error: function(e) {
             console.log(e)
@@ -41,8 +47,10 @@ const loadPostData = () => {
 
 let thumbnail ;
 // 썸네일 이미지 저장
-const thumbnailFunc = () =>{
-    
+const thumbnailFunc = (event) =>{
+
+    previewImage(event)
+
     const formData = new FormData();
     formData.append('image', $thumbnail_btn.files[0]);
     
@@ -102,6 +110,17 @@ const postSave = (event) => {
         }
     });
 }
+
+const previewImage = (event) => {
+    let reader = new FileReader();
+
+    $img_div.style.height = '30rem'
+    reader.onload = function (event) {
+        let img = $img_div.querySelector("img");
+        img.setAttribute("src", event.target.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+};
 
 // Post data들 불러오고 넣기
 loadPostData()

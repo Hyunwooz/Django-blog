@@ -44,6 +44,19 @@ input[type=file]::file-selector-button {
     cursor: pointer;
 }
 
+.thumbnail_preview {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.thumbnail_preview > img {
+    box-sizing: border-box;
+}
+
 #editor {
     margin-top: 2rem;
 }
