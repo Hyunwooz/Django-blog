@@ -17,6 +17,16 @@
 	border-radius: 50%;
 }
 
+.post_like_btn {
+	border: none;
+	background: none;
+	color: rgb(218, 55, 55);
+}
+
+.post_like_btn i {
+	font-size: 2rem;
+}
+
 .created::before {
 	content: "";
 	display: block;

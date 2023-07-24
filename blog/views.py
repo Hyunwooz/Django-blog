@@ -61,12 +61,6 @@ class Detail(View):
         else:
             if post.status == 'active':
                 post.views = post.views + 1
-                if request.user.is_authenticated:
-                    list_user = str(request.user.email)
-                    post.like[list_user] = 'like'
-                    
-                post.save()
-                
                 comments = Comment.objects.filter(post=post,status='active')
                 comment_form = CommentForm()
                 
@@ -140,6 +134,27 @@ class Delete(View):
         category.save()
         post.save()
         return redirect('blog:list')
+
+
+class Likepost(View):
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        if request.user.is_authenticated:
+            like_user = str(request.user.pk)
+            try:
+                valid = post.like[like_user]
+            except:
+                post.like[like_user] = 'like'
+            else:
+                if  valid == 'like':
+                    post.like[like_user] = 'Disabled'
+                else:
+                    post.like[like_user] = 'like'
+        post.save()
+        data = {
+            'message': 'success'
+        }
+        return JsonResponse(data)
 
 
 class ImgUpload(View):

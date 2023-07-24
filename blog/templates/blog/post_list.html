@@ -1,7 +1,9 @@
 {% extends 'base.html' %} 
 {% load static %}
+{% load getValue %}
 
 {% block content %}
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <!-- main -->
     <main>
         <!-- posts -->
@@ -93,6 +95,21 @@
                                         <dd class="created">{{post.created_at}}</dd>
                                         <dt class="a11y-hidden">views</dt>
                                         <dd class="views">Views : {{post.views}}</dd>
+                                        {% if request.user.is_authenticated%}
+                                        {% with like_user=request.user.pk %}
+                                            <dd>
+                                                <form class="post_like_form" >
+                                                    <button class='post_like_btn' id="{{post.pk}}" type='submit'>
+                                                        {% if post.like|get_item:like_user == 'like'%}
+                                                            <i class="fa-solid fa-heart"></i>
+                                                        {% else %}
+                                                            <i class="fa-regular fa-heart"></i>
+                                                        {% endif %}
+                                                    </button>
+                                                </form>
+                                            </dd>
+                                        {% endwith %}
+                                        {% endif %}
                                     </dl>
                                     <!-- //author -->
                                     <!-- category -->
@@ -136,5 +153,6 @@
             <!--//about -->
         </div>
     </main>
-    
+    <script src="{% static 'blog/js/utils.js' %}" type="module"></script>
+    <script src="{% static 'blog/js/like.js' %}" type="module"></script>
 {% endblock %}
