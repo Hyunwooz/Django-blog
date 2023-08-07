@@ -36,7 +36,7 @@
 
 ### 2.2 배포 URL
 
--   http://blog.kanghyunwoo.com/
+-   https://blog.kanghyunwoo.com/
 
 ## 3. 프로젝트 구조와 개발 일정
 
