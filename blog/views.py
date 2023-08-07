@@ -138,6 +138,31 @@ class Delete(View):
         return redirect('blog:list')
 
 
+class Likepost(View):
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        if request.user.is_authenticated:
+            like_user = str(request.user.pk)
+            try:
+                valid = post.like[like_user]
+            except:
+                post.like[like_user] = 'like'
+            else:
+                if  valid == 'like':
+                    post.like[like_user] = 'Disabled'
+                else:
+                    post.like[like_user] = 'like'
+            post.save()
+            data = {
+                'message': 'success'
+            }
+            return JsonResponse(data)
+        data = {
+                'message': 'Login Please'
+            }
+        return JsonResponse(data)
+
+
 class ImgUpload(View):
     def post(self, request):
         image = request.FILES['image']
