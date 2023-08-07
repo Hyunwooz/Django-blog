@@ -36,21 +36,39 @@
 
 ### 2.2 배포 URL
 
--   ~~http://52.78.152.106:8000/blog/ (배포중단)~~
--   http://kanghyunwoo.com/blog/
-
-
-~~! 현재 개인 도메인 연결로 인해 잠시 배포를 중단하였습니다.~~
-
-현재는 개인 도메인을 연결하고 배포까지 완료되었습니다.
-
+-   http://blog.kanghyunwoo.com/
 
 ## 3. 프로젝트 구조와 개발 일정
 
 ### 3.1 Entity Relationship Diagram
 ![erd](https://github.com/Hyunwooz/Django-blog/assets/107661525/f554ac1a-47d8-4525-9d5f-316d7e05c914)
 
-### 3.2 프로젝트 구조
+### 3.2 URL 설계
+
+|이름|URL|비고|
+|------|---|---|
+|User|||
+|회원가입|user/join/||
+|로그인|user/login/||
+|로그아웃|user/logout/||
+|비밀번호 변경|user/changePassword/||
+|프로필|user/profile/edit/||
+|Blog|||
+|글 목록|blog/||
+|글 쓰기|blog/write/||
+|글 디테일|blog/int:pk/||
+|글 수정|blog/edit/int:pk/||
+|글 삭제|blog/delete/int:pk/||
+|제목 검색|blog/search/||
+|카테고리 검색|blog/categorysearch/||
+|좋아요|blog/like/int:pk/||
+|이미지업로드|||
+|이미지|blog/imageupload/||
+|댓글|||
+|댓글 작성|blog/comment/write/int:pk/||
+|댓글 삭제|blog/comment/delete/int:pk/||
+
+### 3.3 프로젝트 구조
 ```
 Django-blog
 │
@@ -148,16 +166,10 @@ SSH로 접속할 때 마다 .bashrc를 실행할 수 있도록 설정하였습�
 2.  https://docs.djangoproject.com/en/3.2/ref/django-admin/#runserver # Django Docs
 3.  https://leffept.tistory.com/282 # Django를 Nginx와 Guicorn 연동하여 배포하기
 
-위의 블로그를 참고하여 배포과정을 진행하였고, 많은 문제들을 만나게되었습니다. 하지만
-대부분의 문제는 gunicorn nginx 등 여러 설정 파일을 잘못 기입 했을 경우 발생하였습니다.
+위의 블로그를 참고하여 배포과정을 진행하였습니다. 배포 도중 많은 에러들을 경험하였지만,
+대부분의 원인들은 gunicorn과 nginx의 여러 설정 파일을 잘못 기입 했을 경우 발생하였습니다.
 
-여기서 gunicorn과 nginx를 연동하여 서버를 배포하게 될 경우 runserver로 서버를 구동했을 당시에 설정해뒀었던 환경변수는 사용하지 못하게 됩니다.
-
-아직까진 gunicorn으로 환경변수를 다루는 법을 몰라 Django에 ProjectApp의 Setting.py를 원상복귀 하게되었습니다.
-
-개인 도메인을 사용하고 싶어 구매를 한 후 AWS Lightsail에서 도메인 및 DNS 설정을 변경하고 도메인 구매처에서 네임서버 또한 변경을 완료하였습니다.
-
-단순히 nginx에서 server name만 내가 구매하고 설정한 도메인으로 바꿔주면 되는 줄 알았지만 아니였습니다.
+개인 도메인을 구매 한 후 AWS Lightsail에서 도메인 및 DNS 설정을 변경하고 도메인 구매처에서 네임서버 변경을 완료하여 적용하였습니다.
 
 - nginx에서 502 Bad Gateway
     - 아직 정확한 원인파익은 되진않았지만 gunicorn이 제대로 작동하지 않아서 발생한 문제로 파악됩니다. nginx에서 gunicorn으로 요청을 전달해주는 reverse proxy에서 발생한 걸로 추측됩니다.
@@ -172,9 +184,9 @@ SSH로 접속할 때 마다 .bashrc를 실행할 수 있도록 설정하였습�
 - gunicorn /tmp/gunicorn.socket failed 
     - 소켓을 실행시켰지만 실패함. 제 gunicorn.sokect이 해당 경로에 존재하지 않았습니다.
 
-등등 너무나도 많은 오류들을 만나다보니 gunicorn으로 더이상 진행하지 않고 uwsgi로 변경하여 배포하기로 결정하였습니다. (중간에 다양한 오류들을 처리하다보니 설정파일 자체가 꼬여버렸기 때문에)
+등등 많은 오류들을 만나 설정 파일들이 너무 꼬여버린 바람에 더이상 진행이 되지않아 gunicorn에서 uwsgi로 변경하여 배포하기로 결정하였습니다.
 
-다만 위에서 여러 시도와 검색을 통해 배우게된 사실은
+다만 위에서 여러 시도와 검색을 통해 배우게된 사실들이 있습니다.
 
 Proxy
 - 정보를 대신 전달해주는 주체입니다.
@@ -364,15 +376,14 @@ Toast Ui Editor(이하 에디터) 제공하는 기능 중 Hook를 통해서 게�
 2. Post 작성도중 업로드한 이미지 표시를 위해
 
 처음 비동기 통신으로 이미지 데이터만을 보냈을 때 당연히 실행되지 않았습니다.
-당연히 될거라 생각했지만 안되니 정말 당황했습니다. 
 이유는 바로 csrftoken을 헤더에 넣어주지 않아서 였습니다. 
 
-다만 지난 Django 수업에서 Postman을 이용하여 통신하였던 걸 떠올려 브라우저의 cookie에서 csrftoken을 가져오는 방법을 찾아낸 후 header에 csrftoken을 넣어 통신에 성공하게 되었습니다.
+cookie에서 csrftoken을 가져와 header에 csrftoken을 넣어 통신에 성공하게 되었습니다.
 
-여기서 문제가 또 발생하였습니다. 
+여기서 문제가 발생하였습니다. 
 
 바로 "이미지만 어떻게 업로드 시킬 것인가?" 입니다.
-고민 끝에 저는 이미지 업로드만을 담당하는 모델을 만들기로 결정 후 media 폴더로 업로드 까지 하는데 성공하였습니다.
+고민 끝에 저는 이미지 업로드만을 담당하는 모델을 만들기로 결정 후 media 폴더로 업로드 하는데 성공했습니다.
 
 ```js
 editor.js
@@ -423,9 +434,8 @@ class ImgUpload(View):
         return JsonResponse(data)
 ```
 
-위의 과정을 통해 DRF가 어떻게 돌아가게 되는 지에 대해서 약간이나마 이해가 가는 계기가 되었습니다.
-
-또한 프론트엔드와 백엔드 사이에는 의사소통이 엄청 중요하다라는 걸 다시한번 깨닫게되었습니다.
+위의 과정을 통해 RestFull API의 구조에 대해서 약간이나마 공부할 수 있는 계기가 되었습니다.
+또한 프론트엔드와 백엔드 사이에 의사소통이 정말 중요하다라는 걸 다시 한번 깨닫게 되었습니다.
 
 ### 데이터베이스 설계의 중요성 feat.(type , dir 찍어보기)
 #### 모델간 1:1 관계에서 Filter 제대로 활용해보기
