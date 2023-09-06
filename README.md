@@ -30,13 +30,12 @@
 ### 2.2 배포 환경
 
 -   Aws Lightsail
--   ~~Gunicorn~~
 -   Nginx
 -   uwsgi
 
 ### 2.2 배포 URL
 
--   https://blog.kanghyunwoo.com/
+-   ~~https://blog.kanghyunwoo.com/~~ 현재 배포되고 있지 않습니다.
 
 ## 3. 프로젝트 구조와 개발 일정
 
